@@ -263,11 +263,6 @@
       margin: 1rem 0;
     }
 
-    .fixture-generator-disabled {
-      opacity: 0.5;
-      cursor: not-allowed;
-    }
-
     .fixture-status {
       padding: 12px;
       border-radius: 8px;
@@ -285,6 +280,88 @@
       background: #d1fae5;
       border-left: 4px solid #10b981;
       color: #065f46;
+    }
+
+    /* ===================== ADMIN TAB SYSTEM ===================== */
+    .admin-tabs {
+      display: flex;
+      gap: 0;
+      margin-bottom: 2rem;
+      background: white;
+      border: 2px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+      flex-wrap: wrap;
+    }
+
+    .admin-tab-btn {
+      flex: 1;
+      min-width: 140px;
+      padding: 14px 10px;
+      background: white;
+      color: var(--text-light);
+      border: none;
+      border-radius: 0;
+      cursor: pointer;
+      font-weight: 700;
+      font-size: 0.9rem;
+      transition: all 0.25s;
+      border-right: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+    }
+
+    .admin-tab-btn:last-child { border-right: none; }
+
+    .admin-tab-btn:hover {
+      background: var(--card);
+      color: var(--primary);
+      transform: none;
+    }
+
+    .admin-tab-btn.active {
+      background: var(--primary);
+      color: white;
+      transform: none;
+    }
+
+    /* ===================== FORM GRID ===================== */
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1rem;
+    }
+
+    .form-field label {
+      display: block;
+      font-weight: 700;
+      color: var(--primary);
+      margin-bottom: 4px;
+      font-size: 0.9rem;
+    }
+
+    .form-field input,
+    .form-field select {
+      margin: 0;
+    }
+
+    .form-field.required label::after {
+      content: ' *';
+      color: #ef4444;
+    }
+
+    .optional-tag {
+      display: inline-block;
+      background: #e5e7eb;
+      color: #6b7280;
+      padding: 2px 8px;
+      border-radius: 20px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      margin-left: 6px;
+      vertical-align: middle;
     }
 
     /* ===================== SCORECARD STYLES ===================== */
@@ -621,7 +698,7 @@
       user-select: all;
     }
 
-    /* Captain login team select */
+    /* Captain login */
     .captain-login-box {
       background: var(--card);
       border: 2px solid var(--border);
@@ -630,13 +707,7 @@
       margin-bottom: 1.5rem;
     }
 
-    .team-select-option {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    /* Premium Badge & Lock */
+    /* Premium Badge */
     .premium-badge {
       display: inline-block;
       background: linear-gradient(135deg, #d946ef, #a855f7);
@@ -649,43 +720,257 @@
       margin-left: 8px;
     }
 
-    .premium-lock-overlay {
-      background: linear-gradient(135deg, rgba(217, 70, 239, 0.15), rgba(168, 85, 247, 0.15));
-      border: 2px dashed #d946ef;
-      border-radius: 12px;
-      padding: 2rem;
+    /* ===================== PLAYER CARD ===================== */
+    .player-card {
+      background: white;
+      border: 2px solid var(--border);
+      border-radius: 14px;
+      padding: 1.2rem;
+      transition: all 0.3s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .player-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 4px;
+      background: var(--border);
+      transition: background 0.3s;
+    }
+
+    .player-card.complete::before { background: #10b981; }
+    .player-card.incomplete::before { background: #f59e0b; }
+
+    .player-card:hover {
+      box-shadow: 0 8px 24px rgba(139,92,246,0.15);
+      transform: translateY(-2px);
+    }
+
+    .player-card .pcard-name {
+      font-size: 1rem;
+      font-weight: 800;
+      color: var(--text);
+      margin-bottom: 0.8rem;
+    }
+
+    .player-card .pcard-field {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.82rem;
+      margin-bottom: 4px;
+      color: var(--text-light);
+    }
+
+    .pcard-field .icon { font-size: 1rem; }
+    .pcard-field .val-complete { color: #10b981; font-weight: 600; }
+    .pcard-field .val-missing { color: #f59e0b; font-weight: 600; }
+
+    .pcard-status {
+      margin-top: 0.8rem;
+      padding: 6px 10px;
+      border-radius: 6px;
+      font-size: 0.8rem;
+      font-weight: 700;
       text-align: center;
-      margin: 1.5rem 0;
     }
 
-    .premium-lock-overlay h4 {
-      color: #d946ef;
-      margin-bottom: 0.5rem;
-      font-size: 1.2rem;
+    .pcard-status.complete { background: #d1fae5; color: #065f46; }
+    .pcard-status.incomplete { background: #fef3c7; color: #92400e; }
+
+    .pcard-actions {
+      display: flex;
+      gap: 6px;
+      margin-top: 0.8rem;
     }
 
-    .premium-lock-overlay p {
-      color: #a855f7;
-      font-weight: 600;
+    .pcard-actions button {
+      flex: 1;
+      padding: 8px;
+      font-size: 0.8rem;
+      border-radius: 8px;
+    }
+
+    /* ===================== EDIT MODAL ===================== */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.55);
+      z-index: 1000;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+    }
+
+    .modal-overlay.open {
+      display: flex;
+    }
+
+    .modal-box {
+      background: white;
+      border-radius: 20px;
+      padding: 2rem;
+      max-width: 460px;
+      width: 100%;
+      border: 2px solid var(--border);
+      box-shadow: 0 25px 60px rgba(139,92,246,0.25);
+      animation: modalPop 0.25s ease;
+    }
+
+    @keyframes modalPop {
+      from { transform: scale(0.92) translateY(20px); opacity: 0; }
+      to { transform: scale(1) translateY(0); opacity: 1; }
+    }
+
+    .modal-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 1.5rem;
+    }
+
+    .modal-close {
+      width: 36px; height: 36px;
+      background: #f3f4f6;
+      border: none;
+      border-radius: 50%;
+      cursor: pointer;
+      font-size: 1.1rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.2s;
+    }
+
+    .modal-close:hover { background: #e5e7eb; transform: none; }
+
+    .modal-field {
       margin-bottom: 1rem;
     }
 
-    .premium-lock-overlay .btn-premium {
-      display: inline-block;
-      padding: 10px 20px;
-      cursor: pointer;
+    .modal-field label {
+      display: block;
+      font-weight: 700;
+      color: var(--primary);
+      margin-bottom: 4px;
+      font-size: 0.9rem;
     }
 
+    .modal-field input {
+      margin: 0;
+    }
+
+    .modal-field .field-hint {
+      font-size: 0.78rem;
+      color: var(--text-light);
+      margin-top: 3px;
+    }
+
+    .modal-actions {
+      display: flex;
+      gap: 1rem;
+      margin-top: 1.5rem;
+    }
+
+    /* squad format buttons */
+    .format-pill {
+      flex: 1;
+      padding: 12px;
+      font-weight: 700;
+      border: 3px solid transparent;
+      border-radius: 10px;
+      background: var(--primary);
+      color: white;
+      cursor: pointer;
+      transition: all 0.25s;
+    }
+
+    .format-pill.active {
+      border-color: white;
+      box-shadow: 0 0 0 3px var(--primary);
+      transform: scale(1.05);
+    }
+
+    /* ===================== SQUAD INFO PROFESSIONAL ===================== */
+    .roster-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 1rem;
+    }
+
+    .stat-pill {
+      background: white;
+      border-radius: 12px;
+      padding: 1rem 1.2rem;
+      border-left: 4px solid var(--primary);
+    }
+
+    .stat-pill .stat-num {
+      font-size: 28px;
+      font-weight: 800;
+    }
+
+    .stat-pill .stat-label {
+      font-size: 0.82rem;
+      color: var(--text-light);
+      margin-top: 2px;
+    }
   </style>
 </head>
 <body>
   <div class="header">
     <nav>
-      <button onclick="showSection('viewer')" class="active" id="nav-viewer">Viewer</button>
-      <button onclick="showSection('scorecard')" id="nav-scorecard">Scorecard</button>
-      <button onclick="showSection('admin')" id="nav-admin">Admin</button>
-      <button onclick="showSection('captain')" id="nav-captain">Captain</button>
+      <button onclick="showSection('viewer')" class="active" id="nav-viewer">🏆 Viewer</button>
+      <button onclick="showSection('scorecard')" id="nav-scorecard">⚽ Scorecard</button>
+      <button onclick="showSection('admin')" id="nav-admin">⚙️ Admin</button>
+      <button onclick="showSection('captain')" id="nav-captain">🎖️ Captain</button>
     </nav>
+  </div>
+
+  <!-- ===== EDIT PLAYER MODAL ===== -->
+  <div class="modal-overlay" id="edit-modal">
+    <div class="modal-box">
+      <div class="modal-header">
+        <h3 style="margin:0;">✏️ Edit Player</h3>
+        <button class="modal-close" onclick="closeEditModal()">✕</button>
+      </div>
+
+      <div id="modal-player-badge" style="background:var(--card);border-radius:10px;padding:10px 14px;margin-bottom:1.2rem;display:flex;align-items:center;gap:10px;border:2px solid var(--border);">
+        <span style="font-size:2rem;">👤</span>
+        <div>
+          <div style="font-weight:800;color:var(--primary);" id="modal-player-name-display">Player Name</div>
+          <div style="font-size:0.8rem;color:var(--text-light);">Editing player info</div>
+        </div>
+      </div>
+
+      <div class="modal-field">
+        <label>👤 Player Name <span style="color:#ef4444;">*</span></label>
+        <input type="text" id="modal-name" placeholder="Enter player name">
+      </div>
+
+      <div class="modal-field">
+        <label>📱 User ID (UID)</label>
+        <input type="text" id="modal-uid" placeholder="Enter UID or leave blank">
+        <div class="field-hint">Leave blank to mark as TBD</div>
+      </div>
+
+      <div class="modal-field">
+        <label>📲 Device Name</label>
+        <input type="text" id="modal-device" placeholder="e.g. Samsung S24 Ultra">
+        <div class="field-hint">Leave blank to mark as TBD</div>
+      </div>
+
+      <input type="hidden" id="modal-player-id">
+
+      <div class="modal-actions">
+        <button class="btn-success" style="flex:2;" onclick="saveEditPlayer()">✅ Save Changes</button>
+        <button class="btn-danger" style="flex:1;" onclick="deletePlayerFromModal()">🗑️ Delete</button>
+        <button style="flex:1;background:#f3f4f6;color:var(--text);" onclick="closeEditModal()">Cancel</button>
+      </div>
+    </div>
   </div>
 
   <div class="container">
@@ -696,7 +981,7 @@
       <p style="text-align:center; font-size:1.3rem; margin-bottom:2rem; color:#8b5cf6;">Tournament Hub</p>
       <div id="viewer-teams"></div>
       <div class="card">
-        <h2 style="text-align:center; margin-bottom:1.5rem;">Fixtures</h2>
+        <h2 style="text-align:center; margin-bottom:1.5rem;">📅 Fixtures</h2>
         <div id="viewer-fixtures"></div>
       </div>
     </div>
@@ -811,283 +1096,381 @@
 
     <!-- ===== ADMIN ===== -->
     <div id="admin" class="section">
-      <div class="card" style="max-width:900px; margin:0 auto;">
-        <h2 style="text-align:center; margin-bottom:1.5rem;">Admin Panel</h2>
+      <div class="card" style="max-width:1000px; margin:0 auto;">
+
+        <div style="text-align:center;margin-bottom:1.5rem;">
+          <h2 style="margin:0;">⚙️ Admin Panel</h2>
+          <p style="color:var(--text-light);margin-top:0.4rem;">Manage teams, fixtures and scorecard settings</p>
+        </div>
 
         <div id="admin-login">
-          <input type="password" id="adminPass" placeholder="Admin Password">
-          <button class="btn-primary" style="width:100%" onclick="adminLogin()">Login as Admin</button>
+          <div style="max-width:380px;margin:0 auto;background:var(--card);border-radius:14px;padding:2rem;border:2px solid var(--border);">
+            <div style="text-align:center;font-size:3rem;margin-bottom:1rem;">🔐</div>
+            <input type="password" id="adminPass" placeholder="Enter Admin Password" style="margin-bottom:1rem;">
+            <button class="btn-primary" style="width:100%;padding:14px;font-size:1rem;" onclick="adminLogin()">Login</button>
+          </div>
         </div>
 
         <div id="admin-content" style="display:none;">
-          <div style="display:flex; gap:1rem; margin-bottom:1.5rem; flex-wrap:wrap;">
-            <button class="btn-primary" onclick="showAdminTab(1)">Team Registration</button>
-            <button class="btn-primary" onclick="showAdminTab(2)">Fixture Creator</button>
-            <button class="btn-primary" onclick="showAdminTab(3)">Scorecard Config</button>
-            <button class="btn-primary" onclick="showAdminTab(4)">Fixture Generator</button>
+
+          <!-- Tab Bar -->
+          <div class="admin-tabs">
+            <button class="admin-tab-btn active" onclick="showAdminTab(1)" id="atab-1">👥 Teams</button>
+            <button class="admin-tab-btn" onclick="showAdminTab(2)" id="atab-2">📅 Fixtures</button>
+            <button class="admin-tab-btn" onclick="showAdminTab(3)" id="atab-3">🎨 SC Config</button>
+            <button class="admin-tab-btn" onclick="showAdminTab(4)" id="atab-4">🚀 Generator</button>
           </div>
 
-          <!-- Tab 1: Team Registration -->
+          <!-- ── Tab 1: Team Registration ── -->
           <div id="admin-tab1">
-            <h3>Register New Team</h3>
-            <input type="text" id="teamName" placeholder="Team Name">
-            <input type="text" id="captainName" placeholder="Captain Name">
-            <input type="text" id="teamPassword" placeholder="Team Password">
+            <div style="background:var(--card);border-radius:14px;padding:1.5rem;border:2px solid var(--border);margin-bottom:1.5rem;">
+              <h3 style="margin:0 0 1.2rem;">➕ Register New Team</h3>
 
-            <div class="upload-area">
-              <p style="margin-bottom:1rem; font-weight:600;">Team Logo</p>
-              <input type="file" id="teamLogoInput" accept="image/*">
-              <button class="btn-success" onclick="uploadTeamLogo()" style="margin-top:10px;">1. Upload Logo</button>
-              <div class="url-display" id="teamLogoUrlDisplay">URL will appear here...</div>
-              <input type="text" id="teamLogoUrl" placeholder="2. Paste URL here">
-              <button class="btn-primary" onclick="setTeamLogoPreview()">3. Set Logo & Preview</button>
-              <img id="teamLogoPreview" class="preview">
+              <div class="form-grid">
+                <div class="form-field required">
+                  <label>Team Name</label>
+                  <input type="text" id="teamName" placeholder="e.g. La Viola FC">
+                </div>
+                <div class="form-field required">
+                  <label>Captain Name</label>
+                  <input type="text" id="captainName" placeholder="e.g. Alex Johnson">
+                </div>
+                <div class="form-field required">
+                  <label>Team Password</label>
+                  <input type="text" id="teamPassword" placeholder="Create a password">
+                </div>
+              </div>
+
+              <div style="margin-top:1rem;">
+                <div class="upload-area">
+                  <p style="margin-bottom:1rem; font-weight:600;">🖼️ Team Logo</p>
+                  <input type="file" id="teamLogoInput" accept="image/*">
+                  <div style="display:flex;gap:0.8rem;margin-top:10px;flex-wrap:wrap;justify-content:center;">
+                    <button class="btn-success" onclick="uploadTeamLogo()">1. Upload</button>
+                    <button class="btn-primary" onclick="setTeamLogoPreview()">3. Preview</button>
+                  </div>
+                  <div class="url-display" id="teamLogoUrlDisplay" style="margin-top:0.8rem;">URL will appear after upload…</div>
+                  <input type="text" id="teamLogoUrl" placeholder="2. Paste URL (or auto-filled after upload)">
+                  <img id="teamLogoPreview" class="preview">
+                </div>
+              </div>
+
+              <button class="btn-success" style="width:100%; margin-top:1.2rem;padding:14px;font-size:1rem;" onclick="registerTeam()">✅ Register Team</button>
             </div>
 
-            <button class="btn-success" style="width:100%; margin-top:1rem;" onclick="registerTeam()">Register Team</button>
-
-            <hr style="margin:2rem 0; border-color:var(--border);">
-            <h3>Registered Teams <span style="font-size:0.85rem; color:var(--text-light);">(Admin can see all passwords)</span></h3>
-            <div id="admin-teams-list"></div>
+            <div>
+              <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem;flex-wrap:wrap;gap:0.5rem;">
+                <h3 style="margin:0;">📋 Registered Teams</h3>
+                <span style="font-size:0.85rem;color:var(--text-light);">Admin can see all passwords</span>
+              </div>
+              <div id="admin-teams-list"></div>
+            </div>
           </div>
 
-          <!-- Tab 2: Fixture Creator -->
+          <!-- ── Tab 2: Fixture Creator ── -->
           <div id="admin-tab2" style="display:none;">
-            <h3>Create New Fixture</h3>
-            <select id="fixtureTeam1"><option value="">Select Team 1</option></select>
-            <select id="fixtureTeam2"><option value="">Select Team 2</option></select>
-            <input type="date" id="fixtureDate">
-            <input type="time" id="fixtureTime">
-            <select id="fixtureFormat">
-              <option value="">Select Format</option>
-              <option value="10v10">10v10</option>
-              <option value="12v12">12v12</option>
-              <option value="8v8">8v8</option>
-              <option value="6v6">6v6</option>
-            </select>
-            <input type="text" id="fixtureVenue" placeholder="Venue (optional)">
-            <button class="btn-success" style="width:100%; margin-top:1rem;" onclick="createFixture()">Create Fixture</button>
+            <div style="background:var(--card);border-radius:14px;padding:1.5rem;border:2px solid var(--border);margin-bottom:1.5rem;">
+              <h3 style="margin:0 0 1.2rem;">➕ Create New Fixture</h3>
 
-            <hr style="margin:2rem 0; border-color:var(--border);">
-            <h3>All Fixtures</h3>
-            <div id="admin-fixtures-list"></div>
-          </div>
+              <div class="form-grid">
+                <div class="form-field required">
+                  <label>Home Team</label>
+                  <select id="fixtureTeam1"><option value="">Select Team 1</option></select>
+                </div>
+                <div class="form-field required">
+                  <label>Away Team</label>
+                  <select id="fixtureTeam2"><option value="">Select Team 2</option></select>
+                </div>
+                <div class="form-field required">
+                  <label>Match Date</label>
+                  <input type="date" id="fixtureDate">
+                </div>
+                <div class="form-field required">
+                  <label>Format</label>
+                  <select id="fixtureFormat">
+                    <option value="">Select Format</option>
+                    <option value="10v10">10v10</option>
+                    <option value="12v12">12v12</option>
+                    <option value="8v8">8v8</option>
+                    <option value="6v6">6v6</option>
+                  </select>
+                </div>
+                <div class="form-field">
+                  <label>Venue <span class="optional-tag">Optional</span></label>
+                  <input type="text" id="fixtureVenue" placeholder="e.g. Stadium A">
+                </div>
+              </div>
 
-          <!-- Tab 3: Scorecard Config -->
-          <div id="admin-tab3" style="display:none;">
-            <h3>Scorecard Settings</h3>
-            <p style="color:var(--text-light); margin-bottom:1rem;">Set default tournament info for scorecards</p>
-
-            <label style="font-weight:600; color:var(--primary);">Tournament Name</label>
-            <input type="text" id="scConfigName" placeholder="e.g. La Viola Cup 2026">
-
-            <label style="font-weight:600; color:var(--primary);">Tournament Stage</label>
-            <input type="text" id="scConfigStage" placeholder="e.g. Group Stage">
-
-            <label style="font-weight:600; color:var(--primary);">Tournament Logo URL</label>
-            <input type="text" id="scConfigLogoUrl" placeholder="https://...">
-
-            <div class="upload-area" style="margin-top:0.5rem;">
-              <p style="font-weight:600; margin-bottom:0.5rem;">Or Upload Logo</p>
-              <input type="file" id="scConfigLogoFile" accept="image/*">
-              <button class="btn-success" onclick="uploadScConfigLogo()" style="margin-top:8px;">Upload Logo</button>
-              <div class="url-display" id="scConfigLogoDisplay">URL will appear here...</div>
+              <button class="btn-success" style="width:100%; margin-top:1.2rem;padding:14px;font-size:1rem;" onclick="createFixture()">📅 Create Fixture</button>
             </div>
 
-            <button class="btn-primary" style="width:100%; margin-top:1rem;" onclick="saveScConfig()">Save Scorecard Config</button>
-
-            <hr style="margin:2rem 0; border-color:var(--border);">
-            <h3>Current Config</h3>
-            <div id="scConfigDisplay" style="background:white; padding:1rem; border-radius:8px; border:2px solid var(--border);"></div>
+            <div>
+              <h3 style="margin-bottom:1rem;">📋 All Fixtures</h3>
+              <div id="admin-fixtures-list"></div>
+            </div>
           </div>
 
-          <!-- Tab 4: Fixture Generator -->
+          <!-- ── Tab 3: Scorecard Config ── -->
+          <div id="admin-tab3" style="display:none;">
+            <div style="background:var(--card);border-radius:14px;padding:1.5rem;border:2px solid var(--border);margin-bottom:1.5rem;">
+              <h3 style="margin:0 0 0.5rem;">🎨 Scorecard Settings</h3>
+              <p style="color:var(--text-light);margin-bottom:1.2rem;font-size:0.9rem;">Set default tournament info used in scorecard generator</p>
+
+              <div class="form-grid">
+                <div class="form-field required">
+                  <label>Tournament Name</label>
+                  <input type="text" id="scConfigName" placeholder="e.g. La Viola Cup 2026">
+                </div>
+                <div class="form-field required">
+                  <label>Tournament Stage</label>
+                  <input type="text" id="scConfigStage" placeholder="e.g. Group Stage">
+                </div>
+                <div class="form-field">
+                  <label>Logo URL <span class="optional-tag">Optional</span></label>
+                  <input type="text" id="scConfigLogoUrl" placeholder="https://...">
+                </div>
+              </div>
+
+              <div class="upload-area" style="margin-top:1rem;">
+                <p style="font-weight:600; margin-bottom:0.5rem;">Or Upload Logo</p>
+                <input type="file" id="scConfigLogoFile" accept="image/*">
+                <button class="btn-success" onclick="uploadScConfigLogo()" style="margin-top:8px;">Upload Logo</button>
+                <div class="url-display" id="scConfigLogoDisplay">URL will appear here…</div>
+              </div>
+
+              <button class="btn-primary" style="width:100%; margin-top:1.2rem;padding:14px;" onclick="saveScConfig()">💾 Save Config</button>
+            </div>
+
+            <div>
+              <h3 style="margin-bottom:1rem;">📌 Current Config</h3>
+              <div id="scConfigDisplay" style="background:white; padding:1rem; border-radius:8px; border:2px solid var(--border);"></div>
+            </div>
+          </div>
+
+          <!-- ── Tab 4: Fixture Generator ── -->
           <div id="admin-tab4" style="display:none;">
-            <h3>🚀 Fixture Generator</h3>
-            <p style="color:var(--text-light); margin-bottom:1rem;">Auto-generate fixture format from squad submissions</p>
+            <div style="background:var(--card);border-radius:14px;padding:1.2rem;border:2px solid var(--border);margin-bottom:1.5rem;display:flex;align-items:flex-start;gap:12px;">
+              <div style="font-size:2rem;flex-shrink:0;">ℹ️</div>
+              <div>
+                <div style="font-weight:700;color:var(--text);margin-bottom:4px;">How the Generator Works</div>
+                <div style="color:var(--text-light);font-size:0.9rem;">Fixtures are available to generate once squad submissions are in. They automatically <strong>disappear 24 hours after the match date</strong>. April 23 match → removed on April 24.</div>
+              </div>
+            </div>
             <div id="fg-fixtures-list"></div>
           </div>
+
         </div>
       </div>
     </div>
 
     <!-- ===== CAPTAIN ===== -->
     <div id="captain" class="section">
-      <div class="card" style="max-width:900px; margin:0 auto;">
-        <h2 style="text-align:center;">Captain Panel</h2>
+      <div class="card" style="max-width:960px; margin:0 auto;">
+        <div style="text-align:center;margin-bottom:1.5rem;">
+          <h2 style="margin:0;">🎖️ Captain Panel</h2>
+        </div>
 
-        <!-- Captain Login Box -->
-        <div id="captain-login-area" style="margin-top:1.5rem;">
-          <div class="captain-login-box">
-            <h3 style="margin-bottom:1rem; text-align:center;">🔐 Login</h3>
-            <label style="font-weight:600; color:var(--primary); display:block; margin-bottom:4px;">Select Your Team</label>
-            <select id="captainTeamSelect" style="margin-bottom:0.5rem;">
-              <option value="">— Choose Team —</option>
-            </select>
-            <label style="font-weight:600; color:var(--primary); display:block; margin-bottom:4px;">Team Password</label>
-            <input type="password" id="teamPasswordLogin" placeholder="Enter team password" style="margin-bottom:1rem;">
-            <button class="btn-primary" style="width:100%" onclick="captainLogin()">Login as Captain</button>
+        <!-- Captain Login -->
+        <div id="captain-login-area">
+          <div class="captain-login-box" style="max-width:400px;margin:0 auto;">
+            <div style="text-align:center;font-size:3rem;margin-bottom:1rem;">🔐</div>
+            <h3 style="margin-bottom:1.2rem;text-align:center;">Login to your Team</h3>
+            <label style="font-weight:700;color:var(--primary);display:block;margin-bottom:4px;">Select Your Team</label>
+            <select id="captainTeamSelect" style="margin-bottom:1rem;"><option value="">— Choose Team —</option></select>
+            <label style="font-weight:700;color:var(--primary);display:block;margin-bottom:4px;">Team Password</label>
+            <input type="password" id="teamPasswordLogin" placeholder="Enter team password" style="margin-bottom:1.2rem;">
+            <button class="btn-primary" style="width:100%;padding:14px;font-size:1rem;" onclick="captainLogin()">Login</button>
           </div>
         </div>
 
         <div id="captain-content" style="display:none; margin-top:2rem;">
-          <h3 id="currentTeamName" style="text-align:center; color:var(--primary); font-size:1.5rem;"></h3>
+          <div style="text-align:center;margin-bottom:1.5rem;">
+            <div id="currentTeamName" style="font-size:1.6rem;font-weight:800;color:var(--primary);"></div>
+            <div style="color:var(--text-light);font-size:0.9rem;">Team Captain Panel</div>
+          </div>
 
-          <div style="display:flex; gap:1rem; margin:1.5rem 0; flex-wrap:wrap; justify-content:center;">
-            <button class="btn-primary" onclick="showCaptainTab(1)">Transfer Window</button>
-            <button class="btn-premium" onclick="showCaptainTab(2)">Squad Info <span class="premium-badge">PREMIUM</span></button>
-            <button class="btn-premium" onclick="showCaptainTab(3)">Squad Submit <span class="premium-badge">PREMIUM</span></button>
-            <button class="btn-warning" onclick="showCaptainTab(4)">🔑 Change Password</button>
+          <!-- Captain Tab Bar -->
+          <div class="admin-tabs" style="margin-bottom:1.5rem;">
+            <button class="admin-tab-btn active" onclick="showCaptainTab(1)" id="ctab-1">🔄 Transfers</button>
+            <button class="admin-tab-btn" onclick="showCaptainTab(2)" id="ctab-2">👥 Squad Info</button>
+            <button class="admin-tab-btn" onclick="showCaptainTab(3)" id="ctab-3">🎯 Submit Squad</button>
+            <button class="admin-tab-btn" onclick="showCaptainTab(4)" id="ctab-4">🔑 Password</button>
           </div>
 
           <!-- Tab 1: Transfer Window -->
           <div id="captain-tab1">
-            <div class="card">
-              <h3>➕ Add New Player</h3>
-              <p style="color:var(--text-light); margin-bottom:1rem;">📌 Only Name is required. Add other details later if needed.</p>
+            <div style="background:var(--card);border-radius:14px;padding:1.5rem;border:2px solid var(--border);margin-bottom:1.5rem;">
+              <h3 style="margin:0 0 0.5rem;">➕ Add New Player</h3>
+              <p style="color:var(--text-light);font-size:0.88rem;margin-bottom:1.2rem;">Only the player <strong>Name</strong> is required. UID and Device can be added later.</p>
 
-              <input type="text" id="playerName" placeholder="Player Name *REQUIRED" style="border-color: #ef4444;">
-
-              <div style="background:#f0f9ff; padding:1rem; border-radius:8px; margin:1rem 0;">
-                <p style="font-weight:600; color:var(--primary); margin-bottom:0.5rem;">Optional Info (can add later):</p>
-                <input type="text" id="playerUid" placeholder="User ID (optional)">
-                <input type="text" id="playerDevice" placeholder="Device Name (optional)">
+              <div class="form-grid">
+                <div class="form-field required" style="grid-column:1/-1;">
+                  <label>Player Name</label>
+                  <input type="text" id="playerName" placeholder="Full in-game name">
+                </div>
+                <div class="form-field">
+                  <label>User ID (UID) <span class="optional-tag">Optional</span></label>
+                  <input type="text" id="playerUid" placeholder="In-game UID">
+                </div>
+                <div class="form-field">
+                  <label>Device Name <span class="optional-tag">Optional</span></label>
+                  <input type="text" id="playerDevice" placeholder="e.g. Samsung S24">
+                </div>
               </div>
 
-              <button class="btn-success" style="width:100%" onclick="addPlayer()">✅ Add Player (Name Only)</button>
+              <button class="btn-success" style="width:100%;margin-top:1.2rem;padding:14px;" onclick="addPlayer()">✅ Add Player</button>
             </div>
 
-            <hr style="margin:2rem 0; border-color:var(--border);">
-
-            <div class="card">
-              <h3>✏️ Quick Edit Player Info</h3>
-              <p style="color:var(--text-light); margin-bottom:1rem;">Click a player below to add missing info:</p>
+            <div>
+              <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem;flex-wrap:wrap;gap:0.5rem;">
+                <h3 style="margin:0;">✏️ Players — Quick Edit</h3>
+                <span style="font-size:0.85rem;color:var(--text-light);">Tap any card to edit</span>
+              </div>
               <div id="captain-edit-players-list"></div>
             </div>
           </div>
 
-          <!-- Tab 2: Squad Info (PREMIUM) -->
+          <!-- Tab 2: Squad Info -->
           <div id="captain-tab2" style="display:none;">
-            <div class="card">
-              <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1.5rem;flex-wrap:wrap;gap:1rem;">
+            <div style="background:linear-gradient(135deg,rgba(139,92,246,0.07),rgba(167,139,250,0.07));border-radius:14px;padding:1.5rem;border:2px solid var(--border);margin-bottom:1.5rem;">
+              <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1.2rem;flex-wrap:wrap;gap:1rem;">
                 <h3 style="margin:0;">👥 Player Roster</h3>
                 <span class="premium-badge">PREMIUM</span>
               </div>
-              
-              <div style="background:linear-gradient(135deg, rgba(217, 70, 239, 0.1), rgba(168, 85, 247, 0.1));border-radius:12px;padding:1.5rem;margin-bottom:1.5rem;">
-                <p style="color:var(--text);margin:0;font-weight:600;margin-bottom:0.5rem;">📊 Squad Overview</p>
-                <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:1rem;margin-top:1rem;" id="squad-stats">
-                  <div style="background:white;padding:1rem;border-radius:8px;border-left:4px solid #8b5cf6;">
-                    <div style="font-size:24px;font-weight:800;color:#8b5cf6;" id="stat-total">0</div>
-                    <div style="font-size:0.85rem;color:#6b7280;">Total Players</div>
-                  </div>
-                  <div style="background:white;padding:1rem;border-radius:8px;border-left:4px solid #10b981;">
-                    <div style="font-size:24px;font-weight:800;color:#10b981;" id="stat-complete">0</div>
-                    <div style="font-size:0.85rem;color:#6b7280;">Complete Info</div>
-                  </div>
-                  <div style="background:white;padding:1rem;border-radius:8px;border-left:4px solid #f59e0b;">
-                    <div style="font-size:24px;font-weight:800;color:#f59e0b;" id="stat-incomplete">0</div>
-                    <div style="font-size:0.85rem;color:#6b7280;">Incomplete</div>
-                  </div>
+
+              <!-- Stats Row -->
+              <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-bottom:1.5rem;" id="squad-stats">
+                <div class="stat-pill" style="border-left-color:#8b5cf6;">
+                  <div class="stat-num" id="stat-total" style="color:#8b5cf6;">0</div>
+                  <div class="stat-label">Total Players</div>
+                </div>
+                <div class="stat-pill" style="border-left-color:#10b981;">
+                  <div class="stat-num" id="stat-complete" style="color:#10b981;">0</div>
+                  <div class="stat-label">Complete Info</div>
+                </div>
+                <div class="stat-pill" style="border-left-color:#f59e0b;">
+                  <div class="stat-num" id="stat-incomplete" style="color:#f59e0b;">0</div>
+                  <div class="stat-label">Need Update</div>
                 </div>
               </div>
 
-              <h4 style="color:var(--primary);margin-bottom:1rem;">📋 All Players</h4>
-              <div style="overflow-x:auto;">
-                <table id="playerTable">
-                  <thead><tr><th>Name</th><th>UID</th><th>Device</th><th>Status</th><th>Action</th></tr></thead>
-                  <tbody></tbody>
-                </table>
+              <!-- Progress Bar -->
+              <div style="margin-bottom:1.5rem;">
+                <div style="display:flex;justify-content:space-between;font-size:0.82rem;color:var(--text-light);margin-bottom:6px;">
+                  <span>Squad Completion</span>
+                  <span id="completion-pct">0%</span>
+                </div>
+                <div style="background:#e5e7eb;border-radius:999px;height:10px;overflow:hidden;">
+                  <div id="completion-bar" style="height:100%;background:linear-gradient(90deg,#8b5cf6,#10b981);border-radius:999px;width:0%;transition:width 0.6s ease;"></div>
+                </div>
               </div>
 
+              <!-- Filter Tabs -->
+              <div style="display:flex;gap:0.5rem;margin-bottom:1rem;flex-wrap:wrap;">
+                <button onclick="filterRoster('all')" id="rf-all" style="padding:7px 16px;border-radius:20px;font-size:0.82rem;font-weight:700;background:var(--primary);color:white;border:2px solid var(--primary);">All</button>
+                <button onclick="filterRoster('complete')" id="rf-complete" style="padding:7px 16px;border-radius:20px;font-size:0.82rem;font-weight:700;background:white;color:#10b981;border:2px solid #10b981;">✅ Complete</button>
+                <button onclick="filterRoster('incomplete')" id="rf-incomplete" style="padding:7px 16px;border-radius:20px;font-size:0.82rem;font-weight:700;background:white;color:#f59e0b;border:2px solid #f59e0b;">⚠️ Incomplete</button>
+              </div>
+
+              <!-- Roster Grid -->
+              <div class="roster-grid" id="roster-grid-view"></div>
+
+              <!-- Export Buttons -->
               <div style="margin-top:1.5rem;display:flex;gap:1rem;flex-wrap:wrap;">
-                <button class="btn-success" onclick="downloadPlayerInfoJPG()">📥 Download Roster JPG</button>
-                <button class="btn-primary" onclick="exportPlayerInfo()">📋 Export as Text</button>
+                <button class="btn-success" onclick="downloadPlayerInfoJPG()">📥 Download JPG</button>
+                <button class="btn-primary" onclick="exportPlayerInfo()">📋 Export Text</button>
+              </div>
+
+              <!-- Hidden table for JPG export -->
+              <div style="overflow:hidden;height:0;pointer-events:none;">
+                <table id="playerTable">
+                  <thead><tr><th>Name</th><th>UID</th><th>Device</th><th>Status</th></tr></thead>
+                  <tbody></tbody>
+                </table>
               </div>
             </div>
           </div>
 
-
-
-          <!-- Tab 3: Squad Submit (PREMIUM) -->
+          <!-- Tab 3: Squad Submit -->
           <div id="captain-tab3" style="display:none;">
-            <div class="card">
+            <div style="background:var(--card);border-radius:14px;padding:1.5rem;border:2px solid var(--border);">
               <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1.5rem;flex-wrap:wrap;gap:1rem;">
                 <h3 style="margin:0;">🎯 Squad Submission</h3>
                 <span class="premium-badge">PREMIUM</span>
               </div>
 
-              <div style="background:linear-gradient(135deg, rgba(217, 70, 239, 0.1), rgba(168, 85, 247, 0.1));border-radius:12px;padding:1.5rem;margin-bottom:1.5rem;">
-                <p style="color:var(--text);margin:0;font-weight:600;margin-bottom:1rem;">📌 Select Tournament Format</p>
-                <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:1rem;" id="format-buttons">
-                  <button class="btn-primary" onclick="selectSquadFormat('10v10')" style="padding:12px;font-weight:700;border:3px solid transparent;" id="btn-10v10">10v10</button>
-                  <button class="btn-primary" onclick="selectSquadFormat('12v12')" style="padding:12px;font-weight:700;border:3px solid transparent;" id="btn-12v12">12v12</button>
-                  <button class="btn-primary" onclick="selectSquadFormat('8v8')" style="padding:12px;font-weight:700;border:3px solid transparent;" id="btn-8v8">8v8</button>
-                  <button class="btn-primary" onclick="selectSquadFormat('6v6')" style="padding:12px;font-weight:700;border:3px solid transparent;" id="btn-6v6">6v6</button>
+              <div style="margin-bottom:1.5rem;">
+                <p style="font-weight:700;color:var(--primary);margin-bottom:1rem;">📌 Select Format</p>
+                <div style="display:flex;gap:0.8rem;flex-wrap:wrap;" id="format-buttons">
+                  <button class="format-pill" onclick="selectSquadFormat('10v10')" id="btn-10v10">10v10</button>
+                  <button class="format-pill" onclick="selectSquadFormat('12v12')" id="btn-12v12">12v12</button>
+                  <button class="format-pill" onclick="selectSquadFormat('8v8')" id="btn-8v8">8v8</button>
+                  <button class="format-pill" onclick="selectSquadFormat('6v6')" id="btn-6v6">6v6</button>
                 </div>
               </div>
 
               <div id="squad-10v10" class="squad-form">
-                <h4 style="color:var(--primary); margin-bottom:0.5rem;text-align:center;font-size:1.3rem;">⚽ 10v10 Squad Submission</h4>
-                <p style="text-align:center;color:#6b7280;margin-bottom:1.5rem;">Click on each slot to select a player</p>
-                <div id="squad-10v10-slots" style="background:white;padding:1.5rem;border-radius:12px;border:2px solid var(--border);"></div>
-                <button class="btn-success" style="width:100%; margin-top:1.5rem;padding:14px;font-size:1rem;" onclick="saveSquad('10v10')">✅ Submit 10v10 Squad</button>
-                <div id="squad-10v10-status" style="margin-top:1rem;padding:12px;border-radius:8px;display:none;"></div>
+                <h4 style="color:var(--primary);margin-bottom:0.5rem;text-align:center;font-size:1.2rem;">⚽ 10v10 Squad</h4>
+                <p style="text-align:center;color:#6b7280;margin-bottom:1.2rem;font-size:0.88rem;">Select player for each slot</p>
+                <div id="squad-10v10-slots" style="background:white;padding:1.2rem;border-radius:12px;border:2px solid var(--border);"></div>
+                <button class="btn-success" style="width:100%;margin-top:1.2rem;padding:14px;font-size:1rem;" onclick="saveSquad('10v10')">✅ Submit 10v10 Squad</button>
+                <div id="squad-10v10-status" style="margin-top:1rem;display:none;"></div>
               </div>
-
               <div id="squad-12v12" class="squad-form">
-                <h4 style="color:var(--primary); margin-bottom:0.5rem;text-align:center;font-size:1.3rem;">⚽ 12v12 Squad Submission</h4>
-                <p style="text-align:center;color:#6b7280;margin-bottom:1.5rem;">Click on each slot to select a player</p>
-                <div id="squad-12v12-slots" style="background:white;padding:1.5rem;border-radius:12px;border:2px solid var(--border);"></div>
-                <button class="btn-success" style="width:100%; margin-top:1.5rem;padding:14px;font-size:1rem;" onclick="saveSquad('12v12')">✅ Submit 12v12 Squad</button>
-                <div id="squad-12v12-status" style="margin-top:1rem;padding:12px;border-radius:8px;display:none;"></div>
+                <h4 style="color:var(--primary);margin-bottom:0.5rem;text-align:center;font-size:1.2rem;">⚽ 12v12 Squad</h4>
+                <p style="text-align:center;color:#6b7280;margin-bottom:1.2rem;font-size:0.88rem;">Select player for each slot</p>
+                <div id="squad-12v12-slots" style="background:white;padding:1.2rem;border-radius:12px;border:2px solid var(--border);"></div>
+                <button class="btn-success" style="width:100%;margin-top:1.2rem;padding:14px;font-size:1rem;" onclick="saveSquad('12v12')">✅ Submit 12v12 Squad</button>
+                <div id="squad-12v12-status" style="margin-top:1rem;display:none;"></div>
               </div>
-
               <div id="squad-8v8" class="squad-form">
-                <h4 style="color:var(--primary); margin-bottom:0.5rem;text-align:center;font-size:1.3rem;">⚽ 8v8 Squad Submission</h4>
-                <p style="text-align:center;color:#6b7280;margin-bottom:1.5rem;">Click on each slot to select a player</p>
-                <div id="squad-8v8-slots" style="background:white;padding:1.5rem;border-radius:12px;border:2px solid var(--border);"></div>
-                <button class="btn-success" style="width:100%; margin-top:1.5rem;padding:14px;font-size:1rem;" onclick="saveSquad('8v8')">✅ Submit 8v8 Squad</button>
-                <div id="squad-8v8-status" style="margin-top:1rem;padding:12px;border-radius:8px;display:none;"></div>
+                <h4 style="color:var(--primary);margin-bottom:0.5rem;text-align:center;font-size:1.2rem;">⚽ 8v8 Squad</h4>
+                <p style="text-align:center;color:#6b7280;margin-bottom:1.2rem;font-size:0.88rem;">Select player for each slot</p>
+                <div id="squad-8v8-slots" style="background:white;padding:1.2rem;border-radius:12px;border:2px solid var(--border);"></div>
+                <button class="btn-success" style="width:100%;margin-top:1.2rem;padding:14px;font-size:1rem;" onclick="saveSquad('8v8')">✅ Submit 8v8 Squad</button>
+                <div id="squad-8v8-status" style="margin-top:1rem;display:none;"></div>
               </div>
-
               <div id="squad-6v6" class="squad-form">
-                <h4 style="color:var(--primary); margin-bottom:0.5rem;text-align:center;font-size:1.3rem;">⚽ 6v6 Squad Submission</h4>
-                <p style="text-align:center;color:#6b7280;margin-bottom:1.5rem;">Click on each slot to select a player</p>
-                <div id="squad-6v6-slots" style="background:white;padding:1.5rem;border-radius:12px;border:2px solid var(--border);"></div>
-                <button class="btn-success" style="width:100%; margin-top:1.5rem;padding:14px;font-size:1rem;" onclick="saveSquad('6v6')">✅ Submit 6v6 Squad</button>
-                <div id="squad-6v6-status" style="margin-top:1rem;padding:12px;border-radius:8px;display:none;"></div>
+                <h4 style="color:var(--primary);margin-bottom:0.5rem;text-align:center;font-size:1.2rem;">⚽ 6v6 Squad</h4>
+                <p style="text-align:center;color:#6b7280;margin-bottom:1.2rem;font-size:0.88rem;">Select player for each slot</p>
+                <div id="squad-6v6-slots" style="background:white;padding:1.2rem;border-radius:12px;border:2px solid var(--border);"></div>
+                <button class="btn-success" style="width:100%;margin-top:1.2rem;padding:14px;font-size:1rem;" onclick="saveSquad('6v6')">✅ Submit 6v6 Squad</button>
+                <div id="squad-6v6-status" style="margin-top:1rem;display:none;"></div>
               </div>
             </div>
           </div>
 
           <!-- Tab 4: Change Password -->
           <div id="captain-tab4" style="display:none;">
-            <div class="card" style="max-width:500px; margin:0 auto;">
-              <h3 style="text-align:center; margin-bottom:1.5rem;">🔑 Change Team Password</h3>
-              <p style="color:var(--text-light); margin-bottom:1rem; text-align:center;">Only team captain should change the password. Share new password with admin.</p>
+            <div style="max-width:440px;margin:0 auto;background:var(--card);border-radius:14px;padding:1.5rem;border:2px solid var(--border);">
+              <h3 style="text-align:center;margin-bottom:0.5rem;">🔑 Change Password</h3>
+              <p style="color:var(--text-light);text-align:center;font-size:0.88rem;margin-bottom:1.5rem;">Share the new password with your admin after changing.</p>
 
-              <label style="font-weight:600; color:var(--primary); display:block; margin-bottom:4px;">Current Password</label>
-              <input type="password" id="currentPassInput" placeholder="Enter current password">
+              <div class="form-field required" style="margin-bottom:1rem;">
+                <label>Current Password</label>
+                <input type="password" id="currentPassInput" placeholder="Enter current password">
+              </div>
+              <div class="form-field required" style="margin-bottom:1rem;">
+                <label>New Password</label>
+                <input type="password" id="newPassInput" placeholder="Enter new password">
+              </div>
+              <div class="form-field required" style="margin-bottom:1.5rem;">
+                <label>Confirm New Password</label>
+                <input type="password" id="confirmPassInput" placeholder="Confirm new password">
+              </div>
 
-              <label style="font-weight:600; color:var(--primary); display:block; margin-bottom:4px; margin-top:0.5rem;">New Password</label>
-              <input type="password" id="newPassInput" placeholder="Enter new password">
-
-              <label style="font-weight:600; color:var(--primary); display:block; margin-bottom:4px; margin-top:0.5rem;">Confirm New Password</label>
-              <input type="password" id="confirmPassInput" placeholder="Confirm new password">
-
-              <button class="btn-warning" style="width:100%; margin-top:1.5rem;" onclick="changeTeamPassword()">🔑 Change Password</button>
+              <button class="btn-warning" style="width:100%;padding:14px;" onclick="changeTeamPassword()">🔑 Update Password</button>
             </div>
           </div>
 
         </div>
       </div>
     </div>
+
   </div>
 
-  <!-- Hidden container for team info JPG rendering -->
+  <!-- Hidden render zone for JPG -->
   <div id="team-info-render-zone" style="position:fixed;left:-9999px;top:0;pointer-events:none;z-index:-1;"></div>
-
   <div class="toast" id="toast"></div>
 
   <script>
@@ -1096,18 +1479,14 @@
     const ADMIN_PASSWORD = "*laviola#";
     let currentTeamId = null;
     let teamLogoUrl = '';
-    let playerPhotoUrl = '';
     let allPlayers = [];
     let scArchives = [];
     let scConfig = { name: 'La Viola Cup', stage: 'Group Stage', logo: '' };
     let teamLogoMap = {};
-    let isPremium = false;
+    let rosterFilter = 'all';
 
     window.addEventListener('load', function () {
-      if (typeof firebase === 'undefined') {
-        alert('Firebase failed to load. Please refresh.');
-        return;
-      }
+      if (typeof firebase === 'undefined') { alert('Firebase failed to load. Please refresh.'); return; }
       const firebaseConfig = {
         apiKey: "AIzaSyCtXOQb7E2fAX_EZmBXZHgH5Jhaq4h9J20",
         authDomain: "llfc-f9f99.firebaseapp.com",
@@ -1124,13 +1503,11 @@
         showSection('viewer');
         loadScConfig();
         loadScArchives();
-      } catch (e) {
-        alert('Firebase error: ' + e.message);
-      }
+      } catch (e) { alert('Firebase error: ' + e.message); }
     });
 
     function checkFirebase() {
-      if (!db || !storage) { showToast('Firebase is still loading...', 'error'); return false; }
+      if (!db || !storage) { showToast('Firebase is still loading…', 'error'); return false; }
       return true;
     }
 
@@ -1142,32 +1519,119 @@
       setTimeout(() => t.style.display = 'none', 3000);
     }
 
-    function upgradeToPremium() {
-      showToast('Premium feature coming soon!', 'error');
+    // ====== EDIT MODAL ======
+    function showEditPlayerModal(playerId) {
+      const player = allPlayers.find(p => p.id === playerId);
+      if (!player) return;
+      document.getElementById('modal-player-id').value = playerId;
+      document.getElementById('modal-player-name-display').textContent = player.name;
+      document.getElementById('modal-name').value = player.name;
+      document.getElementById('modal-uid').value = player.uid === 'TBD' ? '' : player.uid;
+      document.getElementById('modal-device').value = player.device === 'TBD' ? '' : player.device;
+      document.getElementById('edit-modal').classList.add('open');
     }
 
-    function selectSquadFormat(format) {
-      // Hide all squad forms
-      document.querySelectorAll('.squad-form').forEach(f => f.classList.remove('active'));
-      // Show selected format
-      document.getElementById(`squad-${format}`).classList.add('active');
-      // Update button styling
-      document.querySelectorAll('#format-buttons button').forEach(btn => {
-        btn.style.borderColor = 'transparent';
-        btn.style.transform = 'scale(1)';
+    function closeEditModal() {
+      document.getElementById('edit-modal').classList.remove('open');
+    }
+
+    // Close modal on overlay click
+    document.addEventListener('DOMContentLoaded', () => {
+      document.getElementById('edit-modal').addEventListener('click', function(e) {
+        if (e.target === this) closeEditModal();
       });
-      document.getElementById(`btn-${format}`).style.borderColor = '#a78bfa';
-      document.getElementById(`btn-${format}`).style.transform = 'scale(1.05)';
+    });
+
+    function saveEditPlayer() {
+      const playerId = document.getElementById('modal-player-id').value;
+      const name   = document.getElementById('modal-name').value.trim();
+      const uid    = document.getElementById('modal-uid').value.trim() || 'TBD';
+      const device = document.getElementById('modal-device').value.trim() || 'TBD';
+      if (!name) return showToast('Player name is required', 'error');
+
+      db.ref('teams/' + currentTeamId + '/players/' + playerId).update({ name, uid, device })
+        .then(() => {
+          showToast('✅ Player updated!');
+          closeEditModal();
+          loadPlayersForEdit();
+        });
+    }
+
+    function deletePlayerFromModal() {
+      const playerId = document.getElementById('modal-player-id').value;
+      if (!checkFirebase()) return;
+      if (!confirm('Delete this player permanently?')) return;
+      db.ref('teams/' + currentTeamId + '/players/' + playerId).remove()
+        .then(() => { showToast('Player deleted'); closeEditModal(); loadPlayersForEdit(); });
+    }
+
+    // ====== ROSTER FILTER ======
+    function filterRoster(filter) {
+      rosterFilter = filter;
+      ['all','complete','incomplete'].forEach(f => {
+        const btn = document.getElementById('rf-' + f);
+        if (f === filter) {
+          btn.style.background = 'var(--primary)'; btn.style.color = 'white'; btn.style.borderColor = 'var(--primary)';
+        } else {
+          btn.style.background = 'white';
+          if (f === 'complete') { btn.style.color = '#10b981'; btn.style.borderColor = '#10b981'; }
+          else if (f === 'incomplete') { btn.style.color = '#f59e0b'; btn.style.borderColor = '#f59e0b'; }
+          else { btn.style.color = 'var(--text-light)'; btn.style.borderColor = 'var(--border)'; }
+        }
+      });
+      renderRosterGrid();
+    }
+
+    function renderRosterGrid() {
+      const container = document.getElementById('roster-grid-view');
+      if (!container) return;
+
+      const filtered = rosterFilter === 'all' ? allPlayers
+        : rosterFilter === 'complete' ? allPlayers.filter(p => p.uid !== 'TBD' && p.device !== 'TBD')
+        : allPlayers.filter(p => p.uid === 'TBD' || p.device === 'TBD');
+
+      if (filtered.length === 0) {
+        container.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:2rem;color:#6b7280;">No players found.</div>';
+        return;
+      }
+
+      container.innerHTML = filtered.map(p => {
+        const complete = p.uid !== 'TBD' && p.device !== 'TBD';
+        return `<div class="player-card ${complete?'complete':'incomplete'}" onclick="showEditPlayerModal('${p.id}')" style="cursor:pointer;">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:0.8rem;">
+            <div style="font-size:1.8rem;">👤</div>
+            <div style="font-size:0.75rem;font-weight:700;padding:3px 9px;border-radius:20px;background:${complete?'#d1fae5':'#fef3c7'};color:${complete?'#065f46':'#92400e'};">${complete?'✅ READY':'⚠️ PENDING'}</div>
+          </div>
+          <div class="pcard-name">${p.name}</div>
+          <div class="pcard-field">
+            <span class="icon">📱</span>
+            <span class="${p.uid==='TBD'?'val-missing':'val-complete'}">${p.uid==='TBD'?'No UID':p.uid}</span>
+          </div>
+          <div class="pcard-field">
+            <span class="icon">📲</span>
+            <span class="${p.device==='TBD'?'val-missing':'val-complete'}">${p.device==='TBD'?'No Device':p.device}</span>
+          </div>
+          <div class="pcard-actions">
+            <button class="btn-primary" onclick="event.stopPropagation();showEditPlayerModal('${p.id}')">✏️ Edit</button>
+          </div>
+        </div>`;
+      }).join('');
     }
 
     function updateSquadStats() {
       const total = allPlayers.length;
       const complete = allPlayers.filter(p => p.uid !== 'TBD' && p.device !== 'TBD').length;
       const incomplete = total - complete;
-      
+      const pct = total > 0 ? Math.round((complete / total) * 100) : 0;
+
       document.getElementById('stat-total').textContent = total;
       document.getElementById('stat-complete').textContent = complete;
       document.getElementById('stat-incomplete').textContent = incomplete;
+
+      const bar = document.getElementById('completion-bar');
+      const pctEl = document.getElementById('completion-pct');
+      if (bar) bar.style.width = pct + '%';
+      if (pctEl) pctEl.textContent = pct + '%';
     }
 
     function downloadPlayerInfoJPG() {
@@ -1184,22 +1648,14 @@
 
     function exportPlayerInfo() {
       if (allPlayers.length === 0) return showToast('No players to export', 'error');
-      let text = '📋 PLAYER ROSTER EXPORT\n';
-      text += '=' .repeat(50) + '\n\n';
+      let text = '📋 PLAYER ROSTER EXPORT\n' + '='.repeat(50) + '\n\n';
       allPlayers.forEach((p, i) => {
-        text += `${i+1}. ${p.name}\n`;
-        text += `   UID: ${p.uid}\n`;
-        text += `   Device: ${p.device}\n`;
-        text += `   Status: ${p.uid !== 'TBD' && p.device !== 'TBD' ? '✅ Complete' : '⚠️ Incomplete'}\n\n`;
+        text += `${i+1}. ${p.name}\n   UID: ${p.uid}\n   Device: ${p.device}\n   Status: ${p.uid !== 'TBD' && p.device !== 'TBD' ? '✅ Complete' : '⚠️ Incomplete'}\n\n`;
       });
-      text += '=' .repeat(50) + '\n';
-      text += `Total Players: ${allPlayers.length}\n`;
-      text += `Complete: ${allPlayers.filter(p => p.uid !== 'TBD' && p.device !== 'TBD').length}\n`;
-      
+      text += '='.repeat(50) + `\nTotal: ${allPlayers.length} | Complete: ${allPlayers.filter(p=>p.uid!=='TBD'&&p.device!=='TBD').length}\n`;
       const blob = new Blob([text], { type: 'text/plain' });
-      const url = URL.createObjectURL(blob);
       const a = document.createElement('a');
-      a.href = url;
+      a.href = URL.createObjectURL(blob);
       a.download = `squad-roster-${new Date().toISOString().split('T')[0]}.txt`;
       a.click();
       showToast('✅ Exported as text!');
@@ -1259,41 +1715,18 @@
       ]
     };
 
-    // ====== SLOT CATEGORIZATION HELPERS ======
-    function getPlayersByCategory(squad, category, vpn = null) {
+    // ====== SLOT CATEGORIZATION ======
+    function getPlayersByCategory(squad, category) {
       return squad.filter(p => {
         if (!p.slot) return false;
         const slot = p.slot.toLowerCase();
-        if (category === 'firstday') {
-          if (slot.includes('first day') || slot.includes('first day')) {
-            if (vpn === null) return true;
-          }
-          return false;
-        }
-        if (category === 'firstday_key') {
-          return (slot.includes('first day 🔑') || slot.includes('first day 🔑')) && p.isKey;
-        }
-        if (category === 'firstday_normal') {
-          return slot.includes('first day') && !p.isKey && !slot.includes('🔑');
-        }
-        if (category === 'star_key') {
-          return slot.includes('star 🔑') || (slot.includes('star') && p.isKey && !slot.includes('last'));
-        }
-        if (category === 'star_normal') {
-          return (slot === 'star') || (slot.includes('star') && !p.isKey && !slot.includes('🔑') && !slot.includes('last'));
-        }
-        if (category === 'lastday_vpn') {
-          return (slot.includes('vpn') && slot.includes('🔑')) ||
-                 (slot.includes('last day 🔑') && !slot.includes('non-vpn')) ||
-                 (slot.includes('last day 🔑') && !slot.includes('non'));
-        }
-        if (category === 'lastday_nonvpn') {
-          return slot.includes('non-vpn') ||
-                 (slot.includes('last day') && !p.isKey && !slot.includes('🔑'));
-        }
-        if (category === 'captain') {
-          return slot.includes('captain');
-        }
+        if (category === 'firstday_key')   return (slot.includes('first day') && p.isKey);
+        if (category === 'firstday_normal') return (slot.includes('first day') && !p.isKey);
+        if (category === 'star_key')       return (slot.includes('star') && p.isKey && !slot.includes('last'));
+        if (category === 'star_normal')    return (slot.includes('star') && !p.isKey && !slot.includes('last') && !slot.includes('🔑'));
+        if (category === 'lastday_vpn')    return (slot.includes('vpn') && p.isKey) || (slot.includes('last day') && p.isKey && !slot.includes('non'));
+        if (category === 'lastday_nonvpn') return (slot.includes('non-vpn') || (slot.includes('last day') && !p.isKey));
+        if (category === 'captain')        return slot.includes('captain');
         return false;
       });
     }
@@ -1304,15 +1737,17 @@
       document.getElementById(section).classList.add('active');
       document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
       document.getElementById('nav-' + section).classList.add('active');
-      if (section === 'viewer') { loadViewerData(); loadViewerFixtures(); }
-      if (section === 'admin') loadAdminTeams();
-      if (section === 'scorecard') { loadScArchives(); loadTeamLogosForSc(); }
-      if (section === 'captain') { loadTeamsForCaptainLogin(); }
+      if (section === 'viewer')   { loadViewerData(); loadViewerFixtures(); }
+      if (section === 'admin')    loadAdminTeams();
+      if (section === 'scorecard'){ loadScArchives(); loadTeamLogosForSc(); }
+      if (section === 'captain')  loadTeamsForCaptainLogin();
     }
 
     function showAdminTab(tab) {
       for (let i = 1; i <= 4; i++) {
         document.getElementById('admin-tab' + i).style.display = tab === i ? 'block' : 'none';
+        const btn = document.getElementById('atab-' + i);
+        if (btn) btn.classList.toggle('active', tab === i);
       }
       if (tab === 2) { loadTeamsForFixtures(); loadAdminFixtures(); }
       if (tab === 3) renderScConfigDisplay();
@@ -1322,22 +1757,24 @@
     function showCaptainTab(tab) {
       for (let i = 1; i <= 4; i++) {
         document.getElementById('captain-tab' + i).style.display = tab === i ? 'block' : 'none';
+        const btn = document.getElementById('ctab-' + i);
+        if (btn) btn.classList.toggle('active', tab === i);
       }
       if (tab === 1) loadPlayersForEdit();
-      if (tab === 2) {
-        loadPlayersForEdit();
-        updateSquadStats();
-      }
-      if (tab === 3) {
-        loadPlayersForEdit();
-        updateSquadStats();
-        initializeSquadForms();
-      }
+      if (tab === 2) { loadPlayersForEdit(); }
+      if (tab === 3) { loadPlayersForEdit(); updateSquadStats(); initializeSquadForms(); }
+    }
+
+    function selectSquadFormat(format) {
+      document.querySelectorAll('.squad-form').forEach(f => f.classList.remove('active'));
+      document.getElementById('squad-' + format).classList.add('active');
+      document.querySelectorAll('.format-pill').forEach(b => b.classList.remove('active'));
+      document.getElementById('btn-' + format).classList.add('active');
     }
 
     // ====== UPLOAD HELPERS ======
     function uploadTeamLogo() {
-      if (!storage) return showToast('Firebase loading...', 'error');
+      if (!storage) return showToast('Firebase loading…', 'error');
       const file = document.getElementById('teamLogoInput').files[0];
       if (!file) return showToast('Select logo first', 'error');
       const ref = storage.ref('team-logos/' + Date.now() + '_' + file.name);
@@ -1345,6 +1782,7 @@
         teamLogoUrl = url;
         document.getElementById('teamLogoUrlDisplay').innerHTML = `✅ URL Ready:<br><strong>${url}</strong>`;
         document.getElementById('teamLogoUrl').value = url;
+        showToast('Logo uploaded!');
       });
     }
 
@@ -1382,22 +1820,20 @@
 
     function registerTeam() {
       if (!checkFirebase()) return;
-      const name = document.getElementById('teamName').value.trim();
-      const captain = document.getElementById('captainName').value.trim();
+      const name     = document.getElementById('teamName').value.trim();
+      const captain  = document.getElementById('captainName').value.trim();
       const password = document.getElementById('teamPassword').value.trim();
-      if (!name || !captain || !password) return showToast('Fill all fields', 'error');
-      if (!teamLogoUrl) return showToast('Upload and set team logo', 'error');
+      if (!name || !captain || !password) return showToast('Fill all required fields', 'error');
+      if (!teamLogoUrl) return showToast('Upload and set a team logo', 'error');
 
       const teamId = 'team_' + Date.now();
       db.ref('teams/' + teamId).set({ name, captain, password, logo: teamLogoUrl, createdAt: Date.now() })
         .then(() => {
-          showToast('Team registered!');
-          document.getElementById('teamName').value = '';
-          document.getElementById('captainName').value = '';
-          document.getElementById('teamPassword').value = '';
-          document.getElementById('teamLogoUrl').value = '';
+          showToast('✅ Team registered!');
+          ['teamName','captainName','teamPassword','teamLogoUrl'].forEach(id => document.getElementById(id).value = '');
           teamLogoUrl = '';
           document.getElementById('teamLogoPreview').style.display = 'none';
+          document.getElementById('teamLogoUrlDisplay').textContent = 'URL will appear after upload…';
           loadAdminTeams();
         });
     }
@@ -1406,30 +1842,29 @@
       if (!checkFirebase()) return;
       db.ref('teams').once('value', snapshot => {
         const teams = snapshot.val() || {};
-        let html = `<table>
-          <thead>
-            <tr>
-              <th>Logo</th>
-              <th>Team</th>
-              <th>Captain</th>
-              <th>🔑 Password</th>
-              <th>Action</th>
-            </tr>
-          </thead>
+        const entries = Object.entries(teams);
+        if (entries.length === 0) {
+          document.getElementById('admin-teams-list').innerHTML = '<div style="text-align:center;padding:2rem;color:#6b7280;">No teams registered yet.</div>';
+          return;
+        }
+        let html = `<div style="overflow-x:auto;"><table>
+          <thead><tr><th>Logo</th><th>Team</th><th>Captain</th><th>Password</th><th>Actions</th></tr></thead>
           <tbody>`;
-        Object.entries(teams).forEach(([id, team]) => {
+        entries.forEach(([id, team]) => {
           html += `<tr>
-            <td><img src="${team.logo}" style="width:40px;height:40px;border-radius:50%;object-fit:cover;"></td>
+            <td><img src="${team.logo}" style="width:44px;height:44px;border-radius:50%;object-fit:cover;border:2px solid var(--border);"></td>
             <td><strong>${team.name}</strong></td>
-            <td>${team.captain}</td>
+            <td style="color:var(--text-light);">${team.captain}</td>
             <td>
-              <span class="pass-badge" title="Click to select">${team.password || '—'}</span>
+              <span class="pass-badge">${team.password || '—'}</span>
               <button class="btn-warning" style="padding:6px 10px;font-size:0.8rem;margin-left:6px;" onclick="adminResetPassword('${id}','${team.name}')">Reset</button>
             </td>
-            <td><button class="btn-danger" onclick="deleteTeam('${id}')">Delete</button></td>
+            <td>
+              <button class="btn-danger" style="padding:8px 14px;" onclick="deleteTeam('${id}')">🗑️ Delete</button>
+            </td>
           </tr>`;
         });
-        html += '</tbody></table>';
+        html += '</tbody></table></div>';
         document.getElementById('admin-teams-list').innerHTML = html;
       });
     }
@@ -1443,7 +1878,7 @@
 
     function deleteTeam(teamId) {
       if (!checkFirebase()) return;
-      if (confirm('Delete this team?')) {
+      if (confirm('Delete this team? This cannot be undone.')) {
         db.ref('teams/' + teamId).remove().then(() => { showToast('Team deleted'); loadAdminTeams(); });
       }
     }
@@ -1453,9 +1888,7 @@
       db.ref('teams').once('value', snapshot => {
         const teams = snapshot.val() || {};
         let options = '<option value="">Select Team</option>';
-        Object.entries(teams).forEach(([id, team]) => {
-          options += `<option value="${id}">${team.name}</option>`;
-        });
+        Object.entries(teams).forEach(([id, team]) => { options += `<option value="${id}">${team.name}</option>`; });
         document.getElementById('fixtureTeam1').innerHTML = options;
         document.getElementById('fixtureTeam2').innerHTML = options;
       });
@@ -1463,24 +1896,19 @@
 
     function createFixture() {
       if (!checkFirebase()) return;
-      const t1 = document.getElementById('fixtureTeam1').value;
-      const t2 = document.getElementById('fixtureTeam2').value;
-      const date = document.getElementById('fixtureDate').value;
-      const time = document.getElementById('fixtureTime').value;
+      const t1     = document.getElementById('fixtureTeam1').value;
+      const t2     = document.getElementById('fixtureTeam2').value;
+      const date   = document.getElementById('fixtureDate').value;
       const format = document.getElementById('fixtureFormat').value;
-      const venue = document.getElementById('fixtureVenue').value.trim();
-      if (!t1 || !t2 || !date || !time || !format) return showToast('Fill all required fields', 'error');
+      const venue  = document.getElementById('fixtureVenue').value.trim();
+      // Time is REMOVED — date, format, and teams are required
+      if (!t1 || !t2 || !date || !format) return showToast('Fill all required fields', 'error');
       if (t1 === t2) return showToast('Select different teams', 'error');
 
-      db.ref('fixtures/fixture_' + Date.now()).set({ team1: t1, team2: t2, date, time, format, venue, createdAt: Date.now() })
+      db.ref('fixtures/fixture_' + Date.now()).set({ team1: t1, team2: t2, date, format, venue, createdAt: Date.now() })
         .then(() => {
-          showToast('Fixture created!');
-          document.getElementById('fixtureTeam1').value = '';
-          document.getElementById('fixtureTeam2').value = '';
-          document.getElementById('fixtureDate').value = '';
-          document.getElementById('fixtureTime').value = '';
-          document.getElementById('fixtureFormat').value = '';
-          document.getElementById('fixtureVenue').value = '';
+          showToast('✅ Fixture created!');
+          ['fixtureTeam1','fixtureTeam2','fixtureDate','fixtureFormat','fixtureVenue'].forEach(id => document.getElementById(id).value = '');
           loadAdminFixtures();
         });
     }
@@ -1489,153 +1917,155 @@
       if (!checkFirebase()) return;
       Promise.all([db.ref('fixtures').once('value'), db.ref('teams').once('value')]).then(([fs, ts]) => {
         const fixtures = fs.val() || {}, teams = ts.val() || {};
+        const entries = Object.entries(fixtures);
+        if (entries.length === 0) {
+          document.getElementById('admin-fixtures-list').innerHTML = '<div style="text-align:center;padding:2rem;color:#6b7280;">No fixtures yet.</div>';
+          return;
+        }
         let html = '';
-        Object.entries(fixtures).forEach(([id, f]) => {
-          const t1 = teams[f.team1]?.name || 'Unknown', t2 = teams[f.team2]?.name || 'Unknown';
+        entries.forEach(([id, f]) => {
+          const t1 = teams[f.team1]?.name || 'Unknown';
+          const t2 = teams[f.team2]?.name || 'Unknown';
           html += `<div class="fixture-item">
             <div>
               <div class="fixture-teams">${t1} vs ${t2}</div>
-              <div class="fixture-date">${f.date} at ${f.time} • ${f.format}</div>
-              ${f.venue ? `<div class="fixture-date">Venue: ${f.venue}</div>` : ''}
+              <div class="fixture-date">📅 ${f.date} • ${f.format}</div>
+              ${f.venue ? `<div class="fixture-date">📍 ${f.venue}</div>` : ''}
             </div>
-            <button class="btn-danger" onclick="deleteFixture('${id}')">Delete</button>
+            <button class="btn-danger" style="padding:8px 16px;" onclick="deleteFixture('${id}')">🗑️ Delete</button>
           </div>`;
         });
-        document.getElementById('admin-fixtures-list').innerHTML = html || '<p style="text-align:center;color:#6b7280;">No fixtures yet</p>';
+        document.getElementById('admin-fixtures-list').innerHTML = html;
       });
     }
 
     function deleteFixture(fixtureId) {
       if (!checkFirebase()) return;
-      if (confirm('Delete fixture?')) {
+      if (confirm('Delete this fixture?')) {
         db.ref('fixtures/' + fixtureId).remove().then(() => { showToast('Fixture deleted'); loadAdminFixtures(); });
       }
     }
 
     function saveScConfig() {
       if (!checkFirebase()) return;
-      const name = document.getElementById('scConfigName').value.trim();
+      const name  = document.getElementById('scConfigName').value.trim();
       const stage = document.getElementById('scConfigStage').value.trim();
-      const logo = document.getElementById('scConfigLogoUrl').value.trim();
+      const logo  = document.getElementById('scConfigLogoUrl').value.trim();
       if (!name || !stage) return showToast('Enter name and stage', 'error');
       const config = { name, stage, logo, updatedAt: Date.now() };
       db.ref('scConfig').set(config).then(() => {
         scConfig = config;
-        showToast('Scorecard config saved!');
+        showToast('Config saved!');
         renderScConfigDisplay();
-        document.getElementById('scConfigName').value = '';
-        document.getElementById('scConfigStage').value = '';
-        document.getElementById('scConfigLogoUrl').value = '';
+        ['scConfigName','scConfigStage','scConfigLogoUrl'].forEach(id => document.getElementById(id).value = '');
       });
     }
 
     function loadScConfig() {
       if (!checkFirebase()) return;
-      db.ref('scConfig').once('value', snap => {
-        const data = snap.val();
-        if (data) scConfig = data;
-      });
+      db.ref('scConfig').once('value', snap => { const d = snap.val(); if (d) scConfig = d; });
     }
 
     function renderScConfigDisplay() {
       const d = document.getElementById('scConfigDisplay');
       if (!d) return;
-      d.innerHTML = `
-        ${scConfig.logo ? `<img src="${scConfig.logo}" style="width:50px;height:50px;border-radius:50%;object-fit:cover;vertical-align:middle;margin-right:10px;">` : ''}
-        <strong>${scConfig.name}</strong> — ${scConfig.stage}
-      `;
+      d.innerHTML = `<div style="display:flex;align-items:center;gap:1rem;">
+        ${scConfig.logo ? `<img src="${scConfig.logo}" style="width:50px;height:50px;border-radius:50%;object-fit:cover;">` : '<div style="width:50px;height:50px;border-radius:50%;background:var(--card);border:2px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:1.5rem;">🏆</div>'}
+        <div>
+          <div style="font-weight:800;font-size:1.1rem;color:var(--text);">${scConfig.name}</div>
+          <div style="color:var(--text-light);font-size:0.9rem;">${scConfig.stage}</div>
+        </div>
+      </div>`;
     }
 
-    // ====== FIXTURE GENERATOR (Admin Tab 4) ======
+    // ====== FIXTURE GENERATOR ======
     function loadFixtureGeneratorData() {
       if (!checkFirebase()) return;
+      const now = new Date();
+
       Promise.all([db.ref('fixtures').once('value'), db.ref('teams').once('value')]).then(([fs, ts]) => {
         const fixtures = fs.val() || {}, teams = ts.val() || {};
         let html = '';
+        let visibleCount = 0;
+
         Object.entries(fixtures).forEach(([fixtureId, fixture]) => {
+          // Fixtures disappear 24 hours after their match date
+          const fixtureDay  = new Date(fixture.date);
+          const expireTime  = new Date(fixtureDay);
+          expireTime.setDate(expireTime.getDate() + 1); // +24h
+
+          if (now > expireTime) return; // expired — skip
+
           const t1 = teams[fixture.team1], t2 = teams[fixture.team2];
           if (!t1 || !t2) return;
 
-          const canGenerate = checkGeneratorAvailability(fixture.date);
-          const statusMsg = canGenerate
-            ? '✅ Ready to generate'
-            : '⏳ Available from ' + getAvailableTime(fixture.date);
+          visibleCount++;
+
+          // How much time left before expiry
+          const hoursLeft = Math.max(0, Math.round((expireTime - now) / 3600000));
+          const expiryNote = hoursLeft < 6 ? `⚠️ Expires in ~${hoursLeft}h` : `🕒 Expires on ${expireTime.toLocaleDateString('en-GB',{day:'2-digit',month:'short'})}`;
 
           html += `<div class="fixture-generator-box">
-            <div style="margin-bottom:1rem;">
-              <div class="fixture-teams">${t1.name} vs ${t2.name}</div>
-              <div class="fixture-date">${fixture.date} at ${fixture.time} • ${fixture.format}</div>
-              <div class="fixture-status ${canGenerate ? 'success' : 'warning'}">${statusMsg}</div>
+            <div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:0.5rem;margin-bottom:1rem;">
+              <div>
+                <div class="fixture-teams">${t1.name} vs ${t2.name}</div>
+                <div class="fixture-date">📅 ${fixture.date} • ${fixture.format}</div>
+                ${fixture.venue ? `<div class="fixture-date">📍 ${fixture.venue}</div>` : ''}
+              </div>
+              <span style="font-size:0.8rem;background:${hoursLeft<6?'#fee2e2':'#d1fae5'};color:${hoursLeft<6?'#991b1b':'#065f46'};padding:5px 10px;border-radius:20px;font-weight:700;">${expiryNote}</span>
             </div>
             <div class="fixture-generator-btn-group">
-              <button class="btn-primary ${!canGenerate ? 'fixture-generator-disabled' : ''}"
-                onclick="generateFixtureFormat('${fixtureId}','${fixture.team1}','${fixture.team2}','${fixture.date}','${fixture.format}')"
-                ${!canGenerate ? 'disabled' : ''}>🚀 Generate Fixture</button>
+              <button class="btn-primary" onclick="generateFixtureFormat('${fixtureId}','${fixture.team1}','${fixture.team2}','${fixture.date}','${fixture.format}')">🚀 Generate Fixture</button>
             </div>
             <div id="fg-output-${fixtureId}"></div>
           </div>`;
         });
-        document.getElementById('fg-fixtures-list').innerHTML = html || '<p style="text-align:center;color:#6b7280;">No fixtures found</p>';
+
+        if (visibleCount === 0) {
+          html = `<div style="text-align:center;padding:3rem;color:#6b7280;">
+            <div style="font-size:3rem;margin-bottom:1rem;">📭</div>
+            <div style="font-weight:700;margin-bottom:0.5rem;">No active fixtures</div>
+            <div style="font-size:0.9rem;">Fixtures appear here until 24 hours after their match date.</div>
+          </div>`;
+        }
+
+        document.getElementById('fg-fixtures-list').innerHTML = html;
       });
-    }
-
-    function checkGeneratorAvailability(fixtureDate) {
-      const now = new Date();
-      const fixture = new Date(fixtureDate);
-      const dayBefore = new Date(fixture);
-      dayBefore.setDate(dayBefore.getDate() - 1);
-      dayBefore.setHours(23, 59, 0, 0);
-      return now >= dayBefore;
-    }
-
-    function getAvailableTime(fixtureDate) {
-      const fixture = new Date(fixtureDate);
-      const dayBefore = new Date(fixture);
-      dayBefore.setDate(dayBefore.getDate() - 1);
-      dayBefore.setHours(23, 59, 0, 0);
-      return dayBefore.toLocaleString('en-GB', { day: '2-digit', month: 'short', hour: '2-digit', minute: '2-digit' });
     }
 
     function generateFixtureFormat(fixtureId, team1Id, team2Id, fixtureDate, format) {
       if (!checkFirebase()) return;
-
       Promise.all([
         db.ref('teams/' + team1Id).once('value'),
         db.ref('teams/' + team2Id).once('value')
       ]).then(([t1Snap, t2Snap]) => {
-        const team1 = t1Snap.val();
-        const team2 = t2Snap.val();
+        const team1 = t1Snap.val(), team2 = t2Snap.val();
         if (!team1 || !team2) return showToast('Error: Cannot fetch team data', 'error');
 
         Promise.all([
           db.ref('teams/' + team1Id + '/squads/' + format).once('value'),
           db.ref('teams/' + team2Id + '/squads/' + format).once('value')
         ]).then(([squad1Snap, squad2Snap]) => {
-          const squad1Data = squad1Snap.val();
-          const squad2Data = squad2Snap.val();
-          if (!squad1Data || !squad2Data) return showToast('Error: Squad submission not found for this format', 'error');
+          const squad1Data = squad1Snap.val(), squad2Data = squad2Snap.val();
+          if (!squad1Data || !squad2Data) return showToast('Squad submission not found for this format', 'error');
 
-          const squad1 = squad1Data.squad;
-          const squad2 = squad2Data.squad;
-
+          const squad1 = squad1Data.squad, squad2 = squad2Data.squad;
           const fixtureText = buildFixtureText(team1.name, team2.name, squad1, squad2, fixtureDate, format);
 
-          window[`fgData_${fixtureId}`] = { team1, team2, squad1, squad2, fixtureDate, format };
+          window['fgData_' + fixtureId] = { team1, team2, squad1, squad2, fixtureDate, format };
 
-          const outputDiv = document.getElementById(`fg-output-${fixtureId}`);
-          outputDiv.innerHTML = `
+          document.getElementById('fg-output-' + fixtureId).innerHTML = `
             <div style="margin-top:1.5rem;">
               <div class="fixture-generator-output">${escapeHtml(fixtureText)}</div>
               <div style="display:flex;gap:1rem;flex-wrap:wrap;margin-top:1rem;">
-                <button class="btn-success" onclick="copyFixtureText('${fixtureId}')">📋 Copy to Clipboard</button>
-                <button class="btn-primary" onclick="downloadTeamInfoJPG('${fixtureId}', 1)">⬇ Home Info JPG</button>
-                <button class="btn-primary" onclick="downloadTeamInfoJPG('${fixtureId}', 2)">⬇ Away Info JPG</button>
+                <button class="btn-success" onclick="copyFixtureText('${fixtureId}')">📋 Copy Text</button>
+                <button class="btn-primary" onclick="downloadTeamInfoJPG('${fixtureId}', 1)">⬇ Home JPG</button>
+                <button class="btn-primary" onclick="downloadTeamInfoJPG('${fixtureId}', 2)">⬇ Away JPG</button>
               </div>
-            </div>
-          `;
+            </div>`;
 
-          window[`fixture_text_${fixtureId}`] = fixtureText;
-          showToast('Fixture generated!');
+          window['fixture_text_' + fixtureId] = fixtureText;
+          showToast('✅ Fixture generated!');
         });
       });
     }
@@ -1659,24 +2089,12 @@
       const t2_ldNon    = getPlayersByCategory(squad2, 'lastday_nonvpn');
       const t2_capt     = getPlayersByCategory(squad2, 'captain')[0];
 
-      const fdDate = new Date(date);
-      fdDate.setDate(fdDate.getDate() + 1);
-      fdDate.setHours(0, 0, 0, 0);
+      const fdDate = new Date(date); fdDate.setDate(fdDate.getDate()+1); fdDate.setHours(0,0,0,0);
+      const starDate = new Date(date); starDate.setDate(starDate.getDate()+1); starDate.setHours(23,0,0,0);
+      const ldDate = new Date(date); ldDate.setDate(ldDate.getDate()+2); ldDate.setHours(1,20,0,0);
 
-      const starDate = new Date(date);
-      starDate.setDate(starDate.getDate() + 1);
-      starDate.setHours(23, 0, 0, 0);
-
-      const ldDate = new Date(date);
-      ldDate.setDate(ldDate.getDate() + 2);
-      ldDate.setHours(1, 20, 0, 0);
-
-      const fmtFD   = formatDateTime(fdDate);
-      const fmtStar = formatDateTime(starDate);
-      const fmtLD   = formatDateTime(ldDate);
-
-      const firstDayMatches = buildMatchups(t1_fdKey, t1_fdNorm, t2_fdKey, t2_fdNorm, false);
-      const starMatches     = buildMatchups(t1_starKey, t1_starNorm, t2_starKey, t2_starNorm, false);
+      const firstDayMatches = buildMatchups(t1_fdKey, t1_fdNorm, t2_fdKey, t2_fdNorm);
+      const starMatches     = buildMatchups(t1_starKey, t1_starNorm, t2_starKey, t2_starNorm);
       const lastDayMatches  = buildLastDayMatchups(t1_ldVPN, t1_ldNon, t2_ldVPN, t2_ldNon);
 
       return `🔥 𝗧𝗵𝗿𝗶𝗹𝗹𝗲𝗿 𝗟𝗼𝗮𝗱𝗶𝗻𝗴…
@@ -1687,15 +2105,15 @@
 
 ${team1Name} ⚒️ ${team2Name}
 
-🚨 𝗙𝗶𝗿𝘀𝘁 𝗗𝗮𝘆: ${fmtFD}
+🚨 𝗙𝗶𝗿𝘀𝘁 𝗗𝗮𝘆: ${formatDateTime(fdDate)}
 
 ${firstDayMatches}
 
-⭐ 𝗦𝘁𝗮𝗿: ${fmtStar}
+⭐ 𝗦𝘁𝗮𝗿: ${formatDateTime(starDate)}
 
 ${starMatches}
 
-⛔ 𝗟𝗮𝘀𝘁 𝗗𝗮𝘆: ${fmtLD}
+⛔ 𝗟𝗮𝘀𝘁 𝗗𝗮𝘆: ${formatDateTime(ldDate)}
 
 ${lastDayMatches}
 
@@ -1752,55 +2170,37 @@ ROOM SETTING: 8 MINUTES NORMAL
     }
 
     function copyFixtureText(fixtureId) {
-      const text = window[`fixture_text_${fixtureId}`];
+      const text = window['fixture_text_' + fixtureId];
       if (!text) return showToast('No text to copy', 'error');
       navigator.clipboard.writeText(text).then(() => showToast('✅ Copied!')).catch(() => showToast('Copy failed', 'error'));
     }
 
     // ====== TEAM INFO JPG ======
     async function downloadTeamInfoJPG(fixtureId, teamNum) {
-      const data = window[`fgData_${fixtureId}`];
+      const data = window['fgData_' + fixtureId];
       if (!data) return showToast('Generate fixture first', 'error');
-
       const isHome = teamNum === 1;
-      const myTeam     = isHome ? data.team1 : data.team2;
-      const opponent   = isHome ? data.team2 : data.team1;
-      const mySquad    = isHome ? data.squad1 : data.squad2;
-      const side       = isHome ? 'HOME' : 'AWAY';
-
-      showToast(`Generating ${side} info card...`);
-
+      const myTeam = isHome ? data.team1 : data.team2;
+      const opponent = isHome ? data.team2 : data.team1;
+      const mySquad  = isHome ? data.squad1 : data.squad2;
+      const side = isHome ? 'HOME' : 'AWAY';
+      showToast(`Generating ${side} info card…`);
       const zone = document.getElementById('team-info-render-zone');
-      zone.innerHTML = buildTeamInfoCardHTML(
-        myTeam.name, myTeam.logo, mySquad, opponent.name, side, data.fixtureDate, data.format
-      );
-
+      zone.innerHTML = buildTeamInfoCardHTML(myTeam.name, myTeam.logo, mySquad, opponent.name, side, data.fixtureDate, data.format);
       const el = zone.firstElementChild;
       if (!el) return showToast('Render error', 'error');
-
       await document.fonts.ready;
       const imgs = el.querySelectorAll('img');
-      await Promise.all(Array.from(imgs).map(img => new Promise(res => {
-        if (img.complete) return res();
-        img.onload = res; img.onerror = res;
-      })));
+      await Promise.all(Array.from(imgs).map(img => new Promise(res => { if (img.complete) return res(); img.onload = res; img.onerror = res; })));
       await new Promise(r => setTimeout(r, 300));
-
       try {
-        const canvas = await html2canvas(el, {
-          scale: 2.5,
-          useCORS: true,
-          backgroundColor: '#0a0514',
-          logging: false
-        });
+        const canvas = await html2canvas(el, { scale: 2.5, useCORS: true, backgroundColor: '#0a0514', logging: false });
         const link = document.createElement('a');
         link.download = `${myTeam.name.replace(/\s+/g,'_')}_${side}_squad.jpg`;
         link.href = canvas.toDataURL('image/jpeg', 0.97);
         link.click();
         showToast(`✅ ${side} info downloaded!`);
-      } catch(e) {
-        showToast('Download failed: ' + e.message, 'error');
-      }
+      } catch(e) { showToast('Download failed: ' + e.message, 'error'); }
     }
 
     function buildTeamInfoCardHTML(teamName, teamLogo, squadData, opponentName, side, fixtureDate, format) {
@@ -1811,7 +2211,6 @@ ROOM SETTING: 8 MINUTES NORMAL
       const ldVPN   = getPlayersByCategory(squadData, 'lastday_vpn');
       const ldNon   = getPlayersByCategory(squadData, 'lastday_nonvpn');
       const captain = getPlayersByCategory(squadData, 'captain')[0];
-
       const formDate = fixtureDate ? new Date(fixtureDate).toLocaleDateString('en-GB',{day:'2-digit',month:'short',year:'numeric'}) : '';
       const sideColor = side === 'HOME' ? '#22c55e' : '#f97316';
 
@@ -1820,104 +2219,31 @@ ROOM SETTING: 8 MINUTES NORMAL
           <span style="color:${accent};font-family:'Orbitron',sans-serif;font-size:13px;font-weight:600;word-break:break-word;">${p.playerName}</span>
         </div>`;
 
-      const keyBox = (p, accent) => playerBox(p, accent, `rgba(${hexToRgb(accent)},0.15)`);
-      const normBox = (p, accent) => playerBox(p, `${accent}99`, `rgba(${hexToRgb(accent)},0.07)`);
-
       function hexToRgb(hex) {
-        const r = parseInt(hex.slice(1,3),16);
-        const g = parseInt(hex.slice(3,5),16);
-        const b = parseInt(hex.slice(5,7),16);
-        return `${r},${g},${b}`;
+        return `${parseInt(hex.slice(1,3),16)},${parseInt(hex.slice(3,5),16)},${parseInt(hex.slice(5,7),16)}`;
       }
 
-      return `<div style="
-        width:580px;
-        background:linear-gradient(145deg,#0a0514 0%,#150a2e 40%,#0c0a1e 80%,#080415 100%);
-        padding:28px;
-        border-radius:20px;
-        border:3px solid #8b5cf6;
-        font-family:'Montserrat',sans-serif;
-        box-sizing:border-box;
-        box-shadow:0 0 60px rgba(139,92,246,0.4);
-      ">
-        <!-- TOP STRIPE -->
-        <div style="height:4px;background:linear-gradient(90deg,#8b5cf6,${sideColor},#8b5cf6);border-radius:4px;margin-bottom:20px;"></div>
+      const keyBox  = (p, acc) => playerBox(p, acc, `rgba(${hexToRgb(acc)},0.15)`);
+      const normBox = (p, acc) => playerBox(p, `${acc}99`, `rgba(${hexToRgb(acc)},0.07)`);
 
-        <!-- HEADER -->
+      return `<div style="width:580px;background:linear-gradient(145deg,#0a0514 0%,#150a2e 40%,#0c0a1e 80%,#080415 100%);padding:28px;border-radius:20px;border:3px solid #8b5cf6;font-family:'Montserrat',sans-serif;box-sizing:border-box;box-shadow:0 0 60px rgba(139,92,246,0.4);">
+        <div style="height:4px;background:linear-gradient(90deg,#8b5cf6,${sideColor},#8b5cf6);border-radius:4px;margin-bottom:20px;"></div>
         <div style="display:flex;align-items:center;gap:18px;margin-bottom:20px;padding-bottom:18px;border-bottom:1px solid rgba(139,92,246,0.35);">
-          ${teamLogo
-            ? `<img src="${teamLogo}" style="width:88px;height:88px;border-radius:50%;border:3px solid #a78bfa;object-fit:cover;box-shadow:0 0 25px rgba(139,92,246,0.7);">`
-            : `<div style="width:88px;height:88px;border-radius:50%;border:3px solid #a78bfa;background:linear-gradient(135deg,#2d1b69,#1e1b4b);display:flex;align-items:center;justify-content:center;font-size:36px;">⚽</div>`}
+          ${teamLogo ? `<img src="${teamLogo}" style="width:88px;height:88px;border-radius:50%;border:3px solid #a78bfa;object-fit:cover;box-shadow:0 0 25px rgba(139,92,246,0.7);">` : `<div style="width:88px;height:88px;border-radius:50%;border:3px solid #a78bfa;background:linear-gradient(135deg,#2d1b69,#1e1b4b);display:flex;align-items:center;justify-content:center;font-size:36px;">⚽</div>`}
           <div style="flex:1;min-width:0;">
-            <div style="font-family:'Orbitron',sans-serif;font-size:20px;color:#ffffff;font-weight:800;letter-spacing:0.5px;margin-bottom:6px;line-height:1.2;">${teamName}</div>
+            <div style="font-family:'Orbitron',sans-serif;font-size:20px;color:#ffffff;font-weight:800;letter-spacing:0.5px;margin-bottom:6px;">${teamName}</div>
             <div style="display:inline-block;background:${sideColor}22;border:1.5px solid ${sideColor};color:${sideColor};padding:3px 12px;border-radius:20px;font-size:11px;font-weight:700;letter-spacing:1px;margin-bottom:6px;">${side}</div>
             <div style="color:#7c7ca0;font-size:12px;">vs <span style="color:#a78bfa;font-weight:600;">${opponentName}</span>${formDate ? ` • ${formDate}` : ''}${format ? ` • ${format}` : ''}</div>
           </div>
-          <div style="text-align:center;flex-shrink:0;">
-            <div style="font-size:22px;">🏆</div>
-            <div style="color:rgba(167,139,250,0.5);font-size:9px;font-weight:700;letter-spacing:2px;margin-top:2px;">LA VIOLA</div>
-          </div>
+          <div style="text-align:center;flex-shrink:0;"><div style="font-size:22px;">🏆</div><div style="color:rgba(167,139,250,0.5);font-size:9px;font-weight:700;letter-spacing:2px;margin-top:2px;">LA VIOLA</div></div>
         </div>
-
-        <!-- FIRST DAY -->
-        ${fdKey.length > 0 || fdNorm.length > 0 ? `
-        <div style="margin-bottom:16px;">
-          <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px;">
-            <div style="width:3px;height:18px;background:#f59e0b;border-radius:2px;"></div>
-            <span style="color:#f59e0b;font-size:12px;font-weight:800;letter-spacing:1.5px;font-family:'Orbitron',sans-serif;">🚨 FIRST DAY</span>
-          </div>
-          <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
-            <div>
-              ${fdKey.length > 0 ? `<div style="color:#f59e0b88;font-size:10px;font-weight:700;letter-spacing:1px;margin-bottom:4px;">🔑 KEY</div>${fdKey.map(p => keyBox(p,'#f59e0b')).join('')}` : ''}
-            </div>
-            <div>
-              ${fdNorm.length > 0 ? `<div style="color:#c4b5fd88;font-size:10px;font-weight:700;letter-spacing:1px;margin-bottom:4px;">NORMAL</div>${fdNorm.map(p => normBox(p,'#c4b5fd')).join('')}` : ''}
-            </div>
-          </div>
-        </div>` : ''}
-
-        <!-- STAR -->
-        ${stKey.length > 0 || stNorm.length > 0 ? `
-        <div style="margin-bottom:16px;">
-          <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px;">
-            <div style="width:3px;height:18px;background:#fbbf24;border-radius:2px;"></div>
-            <span style="color:#fbbf24;font-size:12px;font-weight:800;letter-spacing:1.5px;font-family:'Orbitron',sans-serif;">⭐ STAR</span>
-          </div>
-          <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
-            <div>
-              ${stKey.length > 0 ? `<div style="color:#fbbf2488;font-size:10px;font-weight:700;letter-spacing:1px;margin-bottom:4px;">🔑 KEY</div>${stKey.map(p => keyBox(p,'#fbbf24')).join('')}` : ''}
-            </div>
-            <div>
-              ${stNorm.length > 0 ? `<div style="color:#fde68a88;font-size:10px;font-weight:700;letter-spacing:1px;margin-bottom:4px;">NORMAL</div>${stNorm.map(p => normBox(p,'#fde68a')).join('')}` : ''}
-            </div>
-          </div>
-        </div>` : ''}
-
-        <!-- LAST DAY -->
-        ${ldVPN.length > 0 || ldNon.length > 0 ? `
-        <div style="margin-bottom:16px;">
-          <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px;">
-            <div style="width:3px;height:18px;background:#ef4444;border-radius:2px;"></div>
-            <span style="color:#ef4444;font-size:12px;font-weight:800;letter-spacing:1.5px;font-family:'Orbitron',sans-serif;">⛔ LAST DAY</span>
-          </div>
-          <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
-            <div>
-              <div style="text-align:center;background:rgba(139,92,246,0.25);border:1px solid #8b5cf6;border-radius:6px;padding:5px;margin-bottom:8px;color:#a78bfa;font-size:10px;font-weight:800;letter-spacing:1px;">🔑 VPN</div>
-              ${ldVPN.map(p => keyBox(p,'#8b5cf6')).join('')}
-            </div>
-            <div>
-              <div style="text-align:center;background:rgba(239,68,68,0.2);border:1px solid #ef4444;border-radius:6px;padding:5px;margin-bottom:8px;color:#fca5a5;font-size:10px;font-weight:800;letter-spacing:1px;">Non-VPN</div>
-              ${ldNon.map(p => keyBox(p,'#ef4444')).join('')}
-            </div>
-          </div>
-        </div>` : ''}
-
-        <!-- FOOTER -->
+        ${fdKey.length>0||fdNorm.length>0 ? `<div style="margin-bottom:16px;"><div style="display:flex;align-items:center;gap:8px;margin-bottom:10px;"><div style="width:3px;height:18px;background:#f59e0b;border-radius:2px;"></div><span style="color:#f59e0b;font-size:12px;font-weight:800;letter-spacing:1.5px;font-family:'Orbitron',sans-serif;">🚨 FIRST DAY</span></div><div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;"><div>${fdKey.length>0?`<div style="color:#f59e0b88;font-size:10px;font-weight:700;letter-spacing:1px;margin-bottom:4px;">🔑 KEY</div>${fdKey.map(p=>keyBox(p,'#f59e0b')).join('')}`:''}</div><div>${fdNorm.length>0?`<div style="color:#c4b5fd88;font-size:10px;font-weight:700;letter-spacing:1px;margin-bottom:4px;">NORMAL</div>${fdNorm.map(p=>normBox(p,'#c4b5fd')).join('')}`:''}</div></div></div>` : ''}
+        ${stKey.length>0||stNorm.length>0 ? `<div style="margin-bottom:16px;"><div style="display:flex;align-items:center;gap:8px;margin-bottom:10px;"><div style="width:3px;height:18px;background:#fbbf24;border-radius:2px;"></div><span style="color:#fbbf24;font-size:12px;font-weight:800;letter-spacing:1.5px;font-family:'Orbitron',sans-serif;">⭐ STAR</span></div><div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;"><div>${stKey.length>0?`<div style="color:#fbbf2488;font-size:10px;font-weight:700;letter-spacing:1px;margin-bottom:4px;">🔑 KEY</div>${stKey.map(p=>keyBox(p,'#fbbf24')).join('')}`:''}</div><div>${stNorm.length>0?`<div style="color:#fde68a88;font-size:10px;font-weight:700;letter-spacing:1px;margin-bottom:4px;">NORMAL</div>${stNorm.map(p=>normBox(p,'#fde68a')).join('')}`:''}</div></div></div>` : ''}
+        ${ldVPN.length>0||ldNon.length>0 ? `<div style="margin-bottom:16px;"><div style="display:flex;align-items:center;gap:8px;margin-bottom:10px;"><div style="width:3px;height:18px;background:#ef4444;border-radius:2px;"></div><span style="color:#ef4444;font-size:12px;font-weight:800;letter-spacing:1.5px;font-family:'Orbitron',sans-serif;">⛔ LAST DAY</span></div><div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;"><div><div style="text-align:center;background:rgba(139,92,246,0.25);border:1px solid #8b5cf6;border-radius:6px;padding:5px;margin-bottom:8px;color:#a78bfa;font-size:10px;font-weight:800;letter-spacing:1px;">🔑 VPN</div>${ldVPN.map(p=>keyBox(p,'#8b5cf6')).join('')}</div><div><div style="text-align:center;background:rgba(239,68,68,0.2);border:1px solid #ef4444;border-radius:6px;padding:5px;margin-bottom:8px;color:#fca5a5;font-size:10px;font-weight:800;letter-spacing:1px;">Non-VPN</div>${ldNon.map(p=>keyBox(p,'#ef4444')).join('')}</div></div></div>` : ''}
         <div style="border-top:1px solid rgba(139,92,246,0.25);padding-top:12px;margin-top:4px;display:flex;justify-content:space-between;align-items:center;">
           ${captain ? `<span style="color:#a78bfa;font-size:12px;font-weight:600;font-family:'Orbitron',sans-serif;">👑 <span style="color:#ffffff;">${captain.playerName}</span></span>` : '<span></span>'}
           <span style="color:rgba(167,139,250,0.35);font-size:9px;letter-spacing:2px;font-weight:700;font-family:'Orbitron',sans-serif;">LA VIOLA FLEUR DE LIS</span>
         </div>
-        <!-- BOTTOM STRIPE -->
         <div style="height:3px;background:linear-gradient(90deg,transparent,#8b5cf6,transparent);border-radius:4px;margin-top:12px;"></div>
       </div>`;
     }
@@ -1928,9 +2254,7 @@ ROOM SETTING: 8 MINUTES NORMAL
       db.ref('teams').once('value', snap => {
         const teams = snap.val() || {};
         let opts = '<option value="">— Choose Team —</option>';
-        Object.entries(teams).forEach(([id, t]) => {
-          opts += `<option value="${id}">${t.name}</option>`;
-        });
+        Object.entries(teams).forEach(([id, t]) => { opts += `<option value="${id}">${t.name}</option>`; });
         const sel = document.getElementById('captainTeamSelect');
         if (sel) sel.innerHTML = opts;
       });
@@ -1947,7 +2271,7 @@ ROOM SETTING: 8 MINUTES NORMAL
         const team = snap.val();
         if (team && team.password === password) {
           currentTeamId = teamId;
-          document.getElementById('currentTeamName').textContent = team.name;
+          document.getElementById('currentTeamName').textContent = '🎖️ ' + team.name;
           document.getElementById('captain-login-area').style.display = 'none';
           document.getElementById('captain-content').style.display = 'block';
           showCaptainTab(1);
@@ -1962,7 +2286,6 @@ ROOM SETTING: 8 MINUTES NORMAL
       const currentPass = document.getElementById('currentPassInput').value.trim();
       const newPass     = document.getElementById('newPassInput').value.trim();
       const confirmPass = document.getElementById('confirmPassInput').value.trim();
-
       if (!currentPass || !newPass || !confirmPass) return showToast('Fill all fields', 'error');
       if (newPass !== confirmPass) return showToast('New passwords do not match', 'error');
       if (newPass.length < 4) return showToast('Password too short (min 4 chars)', 'error');
@@ -1970,29 +2293,23 @@ ROOM SETTING: 8 MINUTES NORMAL
       db.ref('teams/' + currentTeamId + '/password').once('value', snap => {
         if (snap.val() !== currentPass) return showToast('Current password is wrong', 'error');
         db.ref('teams/' + currentTeamId + '/password').set(newPass).then(() => {
-          showToast('✅ Password changed! Share new password with admin.');
-          document.getElementById('currentPassInput').value = '';
-          document.getElementById('newPassInput').value = '';
-          document.getElementById('confirmPassInput').value = '';
+          showToast('✅ Password changed!');
+          ['currentPassInput','newPassInput','confirmPassInput'].forEach(id => document.getElementById(id).value = '');
         });
       });
     }
 
     function addPlayer() {
-      if (!checkFirebase()) return;
-      if (!currentTeamId) return showToast('Login first', 'error');
+      if (!checkFirebase() || !currentTeamId) return showToast('Login first', 'error');
       const name = document.getElementById('playerName').value.trim();
       if (!name) return showToast('Player Name is required', 'error');
-
       const uid    = document.getElementById('playerUid').value.trim() || 'TBD';
       const device = document.getElementById('playerDevice').value.trim() || 'TBD';
 
       db.ref('teams/' + currentTeamId + '/players/player_' + Date.now()).set({ name, uid, device, addedAt: Date.now() })
         .then(() => {
           showToast('✅ Player added!');
-          document.getElementById('playerName').value = '';
-          document.getElementById('playerUid').value = '';
-          document.getElementById('playerDevice').value = '';
+          ['playerName','playerUid','playerDevice'].forEach(id => document.getElementById(id).value = '');
           loadPlayersForEdit();
         });
     }
@@ -2002,71 +2319,49 @@ ROOM SETTING: 8 MINUTES NORMAL
       db.ref('teams/' + currentTeamId + '/players').once('value', snapshot => {
         const players = snapshot.val() || {};
         allPlayers = Object.entries(players).map(([id, p]) => ({ id, ...p }));
-
         updateSquadStats();
 
-        let html = '';
+        // Update hidden table for JPG export
+        let tbodyHtml = '';
         allPlayers.forEach(p => {
-          const isComplete = p.uid !== 'TBD' && p.device !== 'TBD';
-          html += `<tr>
+          const complete = p.uid !== 'TBD' && p.device !== 'TBD';
+          tbodyHtml += `<tr>
             <td><strong>${p.name}</strong></td>
-            <td style="color:${p.uid === 'TBD' ? '#f59e0b' : '#10b981'};font-weight:600;">${p.uid === 'TBD' ? '⚠️ TBD' : p.uid}</td>
-            <td style="color:${p.device === 'TBD' ? '#f59e0b' : '#10b981'};font-weight:600;">${p.device === 'TBD' ? '⚠️ TBD' : p.device}</td>
-            <td>${isComplete ? '<span style="color:#10b981;font-weight:700;">✅ Complete</span>' : '<span style="color:#f59e0b;font-weight:700;">⚠️ Incomplete</span>'}</td>
-            <td>
-              <button class="btn-primary" style="padding:8px 12px;font-size:0.85rem;" onclick="showEditPlayerModal('${p.id}')">✏️ Edit</button>
-              <button class="btn-danger"  style="padding:8px 12px;font-size:0.85rem;" onclick="deletePlayer('${p.id}')">🗑️</button>
-            </td>
+            <td>${p.uid}</td>
+            <td>${p.device}</td>
+            <td>${complete ? '✅ Complete' : '⚠️ Incomplete'}</td>
           </tr>`;
         });
-        if (allPlayers.length === 0) {
-          html = '<tr><td colspan="5" style="text-align:center;padding:2rem;color:#6b7280;">No players yet. Add from Transfer Window.</td></tr>';
+        const tbody = document.querySelector('#playerTable tbody');
+        if (tbody) tbody.innerHTML = tbodyHtml;
+
+        // Render the quick-edit cards in Transfer tab
+        const editContainer = document.getElementById('captain-edit-players-list');
+        if (editContainer) {
+          if (allPlayers.length === 0) {
+            editContainer.innerHTML = '<div style="text-align:center;padding:2rem;color:#6b7280;">No players yet. Add players above.</div>';
+          } else {
+            editContainer.innerHTML = `<div class="roster-grid">` + allPlayers.map(p => {
+              const complete = p.uid !== 'TBD' && p.device !== 'TBD';
+              return `<div class="player-card ${complete?'complete':'incomplete'}" onclick="showEditPlayerModal('${p.id}')" style="cursor:pointer;">
+                <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:0.8rem;">
+                  <div style="font-size:1.8rem;">👤</div>
+                  <div style="font-size:0.75rem;font-weight:700;padding:3px 9px;border-radius:20px;background:${complete?'#d1fae5':'#fef3c7'};color:${complete?'#065f46':'#92400e'};">${complete?'✅':'⚠️'}</div>
+                </div>
+                <div class="pcard-name">${p.name}</div>
+                <div class="pcard-field"><span class="icon">📱</span><span class="${p.uid==='TBD'?'val-missing':'val-complete'}">${p.uid==='TBD'?'No UID':p.uid}</span></div>
+                <div class="pcard-field"><span class="icon">📲</span><span class="${p.device==='TBD'?'val-missing':'val-complete'}">${p.device==='TBD'?'No Device':p.device}</span></div>
+                <div class="pcard-actions">
+                  <button class="btn-primary" onclick="event.stopPropagation();showEditPlayerModal('${p.id}')">✏️ Edit</button>
+                </div>
+              </div>`;
+            }).join('') + `</div>`;
+          }
         }
-        document.getElementById('playerTable').querySelector('tbody').innerHTML = html;
 
-        let editHtml = '<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:1rem;">';
-        allPlayers.forEach(p => {
-          const isComplete = p.uid !== 'TBD' && p.device !== 'TBD';
-          editHtml += `<div style="background:white;border:3px solid ${isComplete ? '#10b981' : '#f59e0b'};border-radius:10px;padding:1.2rem;cursor:pointer;transition:all 0.3s;hover:box-shadow:0 8px 16px rgba(0,0,0,0.1);" onclick="showEditPlayerModal('${p.id}')">
-            <div style="font-size:36px;text-align:center;margin-bottom:0.8rem;">👤</div>
-            <div style="font-weight:700;margin-bottom:0.8rem;text-align:center;color:var(--primary);">${p.name}</div>
-            <div style="font-size:0.85rem;color:${p.uid==='TBD'?'#f59e0b':'#10b981'};margin-bottom:0.5rem;display:flex;align-items:center;gap:0.5rem;">
-              <span style="font-size:1rem;">📱</span> ${p.uid==='TBD'?'⚠️ No UID':p.uid}
-            </div>
-            <div style="font-size:0.85rem;color:${p.device==='TBD'?'#f59e0b':'#10b981'};margin-bottom:0.8rem;display:flex;align-items:center;gap:0.5rem;">
-              <span style="font-size:1rem;">📲</span> ${p.device==='TBD'?'⚠️ No Device':p.device}
-            </div>
-            <div style="text-align:center;padding:8px;border-radius:6px;background:${isComplete?'#d1fae5':'#fef3c7'};color:${isComplete?'#065f46':'#92400e'};font-weight:700;font-size:0.8rem;">${isComplete?'✅ READY':'⚠️ INCOMPLETE'}</div>
-            <button class="btn-primary" style="width:100%;margin-top:0.8rem;padding:8px;font-size:0.8rem;" onclick="event.stopPropagation();showEditPlayerModal('${p.id}')">✏️ EDIT</button>
-          </div>`;
-        });
-        editHtml += '</div>';
-        document.getElementById('captain-edit-players-list').innerHTML = editHtml || '<p style="text-align:center;color:#6b7280;font-size:1.1rem;">No players yet.</p>';
+        // Re-render roster grid if on Squad Info tab
+        renderRosterGrid();
       });
-    }
-
-    function showEditPlayerModal(playerId) {
-      const player = allPlayers.find(p => p.id === playerId);
-      if (!player) return;
-      const newName   = prompt('Player Name:',   player.name);
-      if (newName === null) return;
-      const newUid    = prompt('User ID:',        player.uid === 'TBD' ? '' : player.uid);
-      if (newUid === null) return;
-      const newDevice = prompt('Device Name:',    player.device === 'TBD' ? '' : player.device);
-      if (newDevice === null) return;
-      db.ref('teams/' + currentTeamId + '/players/' + playerId).update({
-        name: newName.trim(),
-        uid: newUid.trim() || 'TBD',
-        device: newDevice.trim() || 'TBD'
-      }).then(() => { showToast('✅ Player updated!'); loadPlayersForEdit(); });
-    }
-
-    function deletePlayer(playerId) {
-      if (!checkFirebase()) return;
-      if (confirm('Delete this player?')) {
-        db.ref('teams/' + currentTeamId + '/players/' + playerId).remove()
-          .then(() => { showToast('Player deleted'); loadPlayersForEdit(); });
-      }
     }
 
     function initializeSquadForms() {
@@ -2074,13 +2369,12 @@ ROOM SETTING: 8 MINUTES NORMAL
       setTimeout(() => {
         Object.keys(squadConfigs).forEach(format => createSquadSlots(format));
         loadSavedSquads();
-        // Show first format by default
         selectSquadFormat('10v10');
       }, 300);
     }
 
     function createSquadSlots(format) {
-      const container = document.getElementById(`squad-${format}-slots`);
+      const container = document.getElementById('squad-' + format + '-slots');
       const config = squadConfigs[format];
       let prevCategory = '';
       let html = '';
@@ -2089,78 +2383,52 @@ ROOM SETTING: 8 MINUTES NORMAL
         if (slot.category !== prevCategory) {
           const catLabels = {firstday:'🚨 First Day', star:'⭐ Star', lastday:'⛔ Last Day', captain:'👑 Captain'};
           const catColors = {firstday:'#f59e0b', star:'#fbbf24', lastday:'#ef4444', captain:'#8b5cf6'};
-          html += `<div style="background:${catColors[slot.category]}15;border-left:4px solid ${catColors[slot.category]};padding:10px 12px;border-radius:6px;margin:16px 0 8px;font-weight:800;color:${catColors[slot.category]};font-size:1rem;">${catLabels[slot.category]||slot.category}</div>`;
+          html += `<div style="background:${catColors[slot.category]}15;border-left:4px solid ${catColors[slot.category]};padding:10px 12px;border-radius:6px;margin:16px 0 8px;font-weight:800;color:${catColors[slot.category]};font-size:0.95rem;">${catLabels[slot.category]||slot.category}</div>`;
           prevCategory = slot.category;
         }
         const slotClass = slot.vpn === true ? 'player-slot vpn-player' : slot.vpn === false ? 'player-slot nonvpn-player' : slot.key ? 'player-slot key-player' : 'player-slot';
         const vpnLabel = slot.vpn === true ? ' 🔐 VPN' : slot.vpn === false ? ' 🌐 Non-VPN' : '';
-        html += `<div class="${slotClass}" style="margin:10px 0;padding:14px;border-radius:10px;display:flex;align-items:center;gap:12px;flex-wrap:wrap;">
-          <label style="min-width:180px;font-weight:700;color:var(--primary);">${slot.label}${vpnLabel}</label>
-          <select id="${format}-slot-${index}" style="flex:1;min-width:180px;">
+        html += `<div class="${slotClass}" style="margin:8px 0;padding:12px;border-radius:10px;display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
+          <label style="min-width:180px;font-weight:700;color:var(--primary);font-size:0.9rem;">${slot.label}${vpnLabel}</label>
+          <select id="${format}-slot-${index}" style="flex:1;min-width:180px;margin:0;">
             <option value="">👈 Select Player</option>
-            ${allPlayers.map(p => `<option value="${p.id}" style="color:${p.uid === 'TBD' || p.device === 'TBD' ? '#f59e0b' : '#10b981'}">${p.name} ${p.uid === 'TBD' || p.device === 'TBD' ? '⚠️' : '✅'}</option>`).join('')}
+            ${allPlayers.map(p => `<option value="${p.id}">${p.name} ${p.uid==='TBD'||p.device==='TBD'?'⚠️':'✅'}</option>`).join('')}
           </select>
         </div>`;
       });
-      container.innerHTML = html || '<p style="text-align:center;color:#6b7280;">No players available. Add players in Transfer Window first.</p>';
-    }
-
-    function showSquadForm(format) {
-      document.querySelectorAll('.squad-form').forEach(f => f.classList.remove('active'));
-      if (format) document.getElementById(`squad-${format}`).classList.add('active');
+      container.innerHTML = html || '<p style="text-align:center;color:#6b7280;padding:1rem;">No players yet. Add from Transfer Window.</p>';
     }
 
     function saveSquad(format) {
       if (!currentTeamId) return showToast('Login first', 'error');
       const config = squadConfigs[format];
-      const squad = [];
-      const missing = [];
-      
+      const squad = [], missing = [];
+
       for (let i = 0; i < config.length; i++) {
-        const playerId = document.getElementById(`${format}-slot-${i}`).value;
-        if (!playerId) {
-          missing.push(config[i].label);
-          continue;
-        }
+        const playerId = document.getElementById(format + '-slot-' + i)?.value;
+        if (!playerId) { missing.push(config[i].label); continue; }
         const player = allPlayers.find(p => p.id === playerId);
         if (!player) continue;
-        
-        squad.push({
-          slot:       config[i].label,
-          playerId,
-          playerName: player.name,
-          isKey:      config[i].key,
-          category:   config[i].category,
-          vpn:        config[i].vpn
-        });
+        squad.push({ slot: config[i].label, playerId, playerName: player.name, isKey: config[i].key, category: config[i].category, vpn: config[i].vpn });
       }
-      
+
       if (missing.length > 0) {
-        const statusDiv = document.getElementById(`squad-${format}-status`);
+        const statusDiv = document.getElementById('squad-' + format + '-status');
         statusDiv.innerHTML = `<div style="background:#fee2e2;border:2px solid #ef4444;color:#991b1b;padding:14px;border-radius:8px;font-weight:600;">❌ Missing ${missing.length} slot(s): ${missing.join(', ')}</div>`;
         statusDiv.style.display = 'block';
-        showToast(`Select players for: ${missing.join(', ')}`, 'error');
-        return;
-      }
-      
-      if (squad.length !== config.length) {
-        showToast('All slots must be filled', 'error');
+        showToast('Fill all slots first', 'error');
         return;
       }
 
       db.ref('teams/' + currentTeamId + '/squads/' + format).set({ squad, updatedAt: Date.now(), submittedAt: new Date().toISOString() })
         .then(() => {
-          const statusDiv = document.getElementById(`squad-${format}-status`);
-          statusDiv.innerHTML = `<div style="background:#dcfce7;border:2px solid #16a34a;color:#166534;padding:14px;border-radius:8px;font-weight:600;">✅ ${format} Squad Submitted Successfully!</div>`;
+          const statusDiv = document.getElementById('squad-' + format + '-status');
+          statusDiv.innerHTML = `<div style="background:#dcfce7;border:2px solid #16a34a;color:#166534;padding:14px;border-radius:8px;font-weight:600;">✅ ${format} Squad Submitted!</div>`;
           statusDiv.style.display = 'block';
-          showToast(`✅ ${format} squad submitted!`);
-          setTimeout(() => {
-            statusDiv.style.display = 'none';
-          }, 5000);
+          showToast('✅ ' + format + ' squad submitted!');
+          setTimeout(() => { statusDiv.style.display = 'none'; }, 5000);
         })
-        .catch(e => {
-          showToast('Error saving squad: ' + e.message, 'error');
-        });
+        .catch(e => showToast('Error: ' + e.message, 'error'));
     }
 
     function loadSavedSquads() {
@@ -2169,7 +2437,7 @@ ROOM SETTING: 8 MINUTES NORMAL
         const squads = snapshot.val() || {};
         Object.entries(squads).forEach(([format, data]) => {
           data.squad.forEach((slot, index) => {
-            const el = document.getElementById(`${format}-slot-${index}`);
+            const el = document.getElementById(format + '-slot-' + index);
             if (el) el.value = slot.playerId;
           });
         });
@@ -2189,8 +2457,8 @@ ROOM SETTING: 8 MINUTES NORMAL
               <img src="${team.logo}" style="width:80px;height:80px;border-radius:50%;object-fit:cover;border:3px solid var(--primary);">
               <div>
                 <h2 style="margin:0;">${team.name}</h2>
-                <p style="color:var(--text-light);">Captain: ${team.captain}</p>
-                <p style="color:var(--text-light);">Players: ${playerCount}</p>
+                <p style="color:var(--text-light);">👑 Captain: ${team.captain}</p>
+                <p style="color:var(--text-light);">👥 Players: ${playerCount}</p>
               </div>
             </div>
           </div>`;
@@ -2208,15 +2476,14 @@ ROOM SETTING: 8 MINUTES NORMAL
           const t1 = teams[f.team1], t2 = teams[f.team2];
           if (t1 && t2) {
             html += `<div class="fixture-item">
-              <div style="display:flex;align-items:center;gap:1rem;">
+              <div style="display:flex;align-items:center;gap:1rem;flex-wrap:wrap;">
                 <img src="${t1.logo}" style="width:50px;height:50px;border-radius:50%;object-fit:cover;">
                 <div class="fixture-teams">${t1.name} vs ${t2.name}</div>
                 <img src="${t2.logo}" style="width:50px;height:50px;border-radius:50%;object-fit:cover;">
               </div>
               <div>
-                <div class="fixture-date">${f.date} at ${f.time}</div>
-                <div class="fixture-date">${f.format}</div>
-                ${f.venue ? `<div class="fixture-date">Venue: ${f.venue}</div>` : ''}
+                <div class="fixture-date">📅 ${f.date} • ${f.format}</div>
+                ${f.venue ? `<div class="fixture-date">📍 ${f.venue}</div>` : ''}
               </div>
             </div>`;
           }
@@ -2253,7 +2520,7 @@ ROOM SETTING: 8 MINUTES NORMAL
         }
       }
 
-      if (!team1 || !team2) return showToast('❌ Cannot find team names. Use format: Team1 ⚒️ Team2', 'error');
+      if (!team1 || !team2) return showToast('❌ Cannot find team names. Use: Team1 ⚒️ Team2', 'error');
 
       const matchRegex = /(.+?)\s*\(?(\d+)\)?\s*🆚\s*\(?(\d+)\)?\s*(.+)/;
       const matches = [];
@@ -2269,7 +2536,7 @@ ROOM SETTING: 8 MINUTES NORMAL
         }
       }
 
-      if (matches.length === 0) return showToast('❌ No matches found. Use: Player1 (X)🆚(Y) Player2', 'error');
+      if (matches.length === 0) return showToast('❌ No matches found.', 'error');
       if (!motmPlayer) return showToast('❌ No Man of the Match (👑) found', 'error');
 
       let t1pts = 0, t2pts = 0;
@@ -2279,30 +2546,25 @@ ROOM SETTING: 8 MINUTES NORMAL
         else { t1pts++; t2pts++; }
       });
 
-      const stageInput = document.getElementById('scStageInput').value.trim();
-      const logoInput  = document.getElementById('scLogoInput').value.trim();
-      const nameInput  = document.getElementById('scNameInput').value.trim();
-
-      const stage = stageInput || scConfig.stage || 'Group Stage';
-      const logo  = logoInput  || scConfig.logo  || '';
-      const tName = nameInput  || scConfig.name  || 'La Viola Cup';
-
+      const stage = document.getElementById('scStageInput').value.trim() || scConfig.stage || 'Group Stage';
+      const logo  = document.getElementById('scLogoInput').value.trim()  || scConfig.logo  || '';
+      const tName = document.getElementById('scNameInput').value.trim()  || scConfig.name  || 'La Viola Cup';
       const t1logo = teamLogoMap[team1] || '';
       const t2logo = teamLogoMap[team2] || '';
 
       ['dark','light'].forEach(theme => {
-        const t1Panel = document.getElementById(`sc-${theme}-t1`);
-        const t2Panel = document.getElementById(`sc-${theme}-t2`);
+        const t1Panel = document.getElementById('sc-' + theme + '-t1');
+        const t2Panel = document.getElementById('sc-' + theme + '-t2');
         t1Panel.innerHTML = `${t1logo ? `<img src="${t1logo}" class="sc-team-logo">` : ''}${team1}`;
         t2Panel.innerHTML = `${t2logo ? `<img src="${t2logo}" class="sc-team-logo">` : ''}${team2}`;
-        document.getElementById(`sc-${theme}-s1`).textContent = t1pts;
-        document.getElementById(`sc-${theme}-s2`).textContent = t2pts;
-        document.getElementById(`sc-${theme}-name`).textContent = tName;
-        document.getElementById(`sc-${theme}-stage`).textContent = stage;
-        const logoEl = document.getElementById(`sc-${theme}-logo`);
+        document.getElementById('sc-' + theme + '-s1').textContent = t1pts;
+        document.getElementById('sc-' + theme + '-s2').textContent = t2pts;
+        document.getElementById('sc-' + theme + '-name').textContent = tName;
+        document.getElementById('sc-' + theme + '-stage').textContent = stage;
+        const logoEl = document.getElementById('sc-' + theme + '-logo');
         if (logo) { logoEl.src = logo; logoEl.style.display = 'block'; } else logoEl.style.display = 'none';
 
-        const matchesDiv = document.getElementById(`sc-${theme}-matches`);
+        const matchesDiv = document.getElementById('sc-' + theme + '-matches');
         matchesDiv.innerHTML = '';
         matches.forEach(([p1, s1, s2, p2]) => {
           const cp1 = cleanName(p1), cp2 = cleanName(p2);
@@ -2316,13 +2578,13 @@ ROOM SETTING: 8 MINUTES NORMAL
             </div>`;
         });
 
-        const winText = t1pts > t2pts ? `${team1} wins! 🎉` : t2pts > t1pts ? `${team2} wins! 🎉` : 'Draw! 🤝';
-        document.getElementById(`sc-${theme}-winner`).textContent = `Winner: ${winText}`;
-        document.getElementById(`sc-${theme}-motm`).textContent   = `Man of the Match: 👑 ${motmPlayer}`;
+        const winText = t1pts > t2pts ? team1 + ' wins! 🎉' : t2pts > t1pts ? team2 + ' wins! 🎉' : 'Draw! 🤝';
+        document.getElementById('sc-' + theme + '-winner').textContent = 'Winner: ' + winText;
+        document.getElementById('sc-' + theme + '-motm').textContent   = 'Man of the Match: 👑 ' + motmPlayer;
       });
 
       saveScArchive(team1, team2, t1pts, t2pts, matches, motmPlayer, stage, tName, logo);
-      showToast('✅ Scorecards generated successfully!');
+      showToast('✅ Scorecards generated!');
     }
 
     function saveScArchive(team1, team2, t1pts, t2pts, matches, motm, stage, tName, logo) {
@@ -2345,41 +2607,29 @@ ROOM SETTING: 8 MINUTES NORMAL
     function renderScArchives() {
       const list = document.getElementById('sc-archive-list');
       if (!list) return;
-      
-      // Update archive count
       const countEl = document.getElementById('archive-count');
-      if (countEl) countEl.innerHTML = `${scArchives.length} Saved`;
-      
-      if (scArchives.length === 0) { 
-        list.innerHTML = '<p style="text-align:center;color:#6b7280;padding:2rem;">No archives yet. Generate your first scorecard!</p>'; 
-        return; 
+      if (countEl) countEl.innerHTML = scArchives.length + ' Saved';
+      if (scArchives.length === 0) {
+        list.innerHTML = '<p style="text-align:center;color:#6b7280;padding:2rem;">No archives yet.</p>';
+        return;
       }
-      
       list.innerHTML = scArchives.map((a, i) => {
-        const timestamp = new Date(a.timestamp);
-        const timeStr = timestamp.toLocaleString('en-GB',{day:'2-digit',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit'});
+        const timeStr = new Date(a.timestamp).toLocaleString('en-GB',{day:'2-digit',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit'});
         const winner = a.t1pts > a.t2pts ? a.team1 : a.t2pts > a.t1pts ? a.team2 : 'Draw';
-        
-        return `
-          <div style="background:white;border:2px solid var(--border);border-radius:12px;padding:1.2rem;margin:1rem 0;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem;transition:all 0.3s;">
-            <div style="flex:1;min-width:250px;">
-              <div style="display:flex;align-items:center;gap:1rem;margin-bottom:0.5rem;">
-                <div>
-                  <div class="archive-teams" style="font-size:1.1rem;">${a.team1} <span style="color:var(--text-light);">vs</span> ${a.team2}</div>
-                  <div class="archive-info" style="margin-top:0.25rem;">📊 ${a.t1pts} - ${a.t2pts}</div>
-                </div>
-                <div style="font-size:28px;font-weight:800;color:var(--primary);">${winner === 'Draw' ? '🤝' : '🏆'}</div>
-              </div>
-              <div class="archive-info">🏆 ${a.tName} • ${a.stage}</div>
-              <div class="archive-info">👑 MOTM: <strong>${a.motm}</strong></div>
-              <div class="archive-info">📅 ${timeStr}</div>
+        return `<div style="background:white;border:2px solid var(--border);border-radius:12px;padding:1.2rem;margin:1rem 0;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem;">
+          <div style="flex:1;min-width:220px;">
+            <div style="display:flex;align-items:center;gap:0.8rem;margin-bottom:0.5rem;">
+              <div style="font-weight:800;color:var(--primary);">${a.team1} <span style="color:var(--text-light);font-weight:400;">vs</span> ${a.team2}</div>
+              <div style="font-size:1.4rem;">${winner === 'Draw' ? '🤝' : '🏆'}</div>
             </div>
-            <div style="display:flex;gap:0.5rem;flex-wrap:wrap;">
-              <button class="btn-primary" style="padding:8px 14px;font-size:0.85rem;" onclick="loadScArchiveItem(${i})">📂 Load</button>
-              <button class="btn-danger" style="padding:8px 14px;font-size:0.85rem;" onclick="deleteScArchive('${a.id}')">🗑️ Delete</button>
-            </div>
+            <div style="font-size:0.85rem;color:var(--text-light);">📊 ${a.t1pts} - ${a.t2pts} • 🏆 ${a.tName} • ${a.stage}</div>
+            <div style="font-size:0.85rem;color:var(--text-light);">👑 MOTM: <strong>${a.motm}</strong> • 📅 ${timeStr}</div>
           </div>
-        `;
+          <div style="display:flex;gap:0.5rem;">
+            <button class="btn-primary" style="padding:8px 14px;font-size:0.85rem;" onclick="loadScArchiveItem(${i})">📂 Load</button>
+            <button class="btn-danger"  style="padding:8px 14px;font-size:0.85rem;" onclick="deleteScArchive('${a.id}')">🗑️</button>
+          </div>
+        </div>`;
       }).join('');
     }
 
@@ -2404,22 +2654,14 @@ ROOM SETTING: 8 MINUTES NORMAL
       const el = document.getElementById(id);
       try {
         const imgs = el.querySelectorAll('img');
-        await Promise.all(Array.from(imgs).map(img => new Promise(res => {
-          if (img.complete) { res(); return; }
-          img.onload = res; img.onerror = res;
-        })));
-        const canvas = await html2canvas(el, {
-          backgroundColor: id === 'sc-dark' ? '#2c2c2c' : '#ffffff',
-          scale: 2, useCORS: true
-        });
+        await Promise.all(Array.from(imgs).map(img => new Promise(res => { if (img.complete) { res(); return; } img.onload = res; img.onerror = res; })));
+        const canvas = await html2canvas(el, { backgroundColor: id === 'sc-dark' ? '#2c2c2c' : '#ffffff', scale: 2, useCORS: true });
         const link = document.createElement('a');
-        link.download = `scorecard_${id}_${Date.now()}.png`;
+        link.download = 'scorecard_' + id + '_' + Date.now() + '.png';
         link.href = canvas.toDataURL('image/png');
         link.click();
         showToast('Downloaded!');
-      } catch(e) {
-        showToast('Download failed: ' + e.message, 'error');
-      }
+      } catch(e) { showToast('Download failed: ' + e.message, 'error'); }
     }
   </script>
 </body>
