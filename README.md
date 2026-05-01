@@ -29,6 +29,8 @@
       color: var(--text);
       line-height: 1.6;
       overflow-x: hidden;
+      opacity: 1;
+      transition: opacity 0.3s ease;
     }
 
     .header {
@@ -101,6 +103,27 @@
 
     .section { display: none; }
     .section.active { display: block; }
+
+    /* ===================== BADGE STYLES ===================== */
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      font-size: 12px;
+      font-weight: 700;
+      margin-right: 6px;
+      vertical-align: middle;
+      flex-shrink: 0;
+    }
+
+    .badge-primary { background: var(--primary); color: white; }
+    .badge-success { background: #10b981; color: white; }
+    .badge-warning { background: #f59e0b; color: white; }
+    .badge-danger { background: #ef4444; color: white; }
+    .badge-info { background: #3b82f6; color: white; }
 
     .upload-area {
       border: 2px dashed var(--primary);
@@ -913,20 +936,333 @@
       font-weight: 800;
     }
 
-    .stat-pill .stat-label {
-      font-size: 0.82rem;
-      color: var(--text-light);
-      margin-top: 2px;
+    /* ===================== POINT TABLE ===================== */
+    .pt-container {
+      background: white;
+      border-radius: 16px;
+      overflow: hidden;
+      border: 2px solid var(--border);
+      box-shadow: 0 10px 30px rgba(139,92,246,0.1);
     }
+
+    .pt-header {
+      background: linear-gradient(135deg, #8b5cf6, #a78bfa);
+      padding: 1.5rem;
+      color: white;
+      text-align: center;
+      font-size: 1.3rem;
+      font-weight: 800;
+      letter-spacing: 1px;
+    }
+
+    .pt-table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    .pt-thead th {
+      background: #f3f4f6;
+      padding: 1rem;
+      text-align: left;
+      font-weight: 700;
+      color: var(--text);
+      border-bottom: 2px solid var(--border);
+      font-size: 0.9rem;
+    }
+
+    .pt-tbody td {
+      padding: 0.9rem 1rem;
+      border-bottom: 1px solid var(--border);
+      color: var(--text);
+    }
+
+    .pt-tbody tr:hover {
+      background: var(--card);
+    }
+
+    .pt-rank {
+      font-weight: 800;
+      text-align: center;
+      width: 50px;
+    }
+
+    .pt-medal {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      font-weight: 800;
+      color: white;
+      font-size: 1.2rem;
+    }
+
+    .pt-medal.gold {
+      background: linear-gradient(135deg, #fbbf24, #f59e0b);
+      box-shadow: 0 0 15px rgba(251, 191, 36, 0.4);
+    }
+
+    .pt-medal.silver {
+      background: linear-gradient(135deg, #e5e7eb, #d1d5db);
+      box-shadow: 0 0 15px rgba(209, 213, 219, 0.4);
+      color: #374151;
+    }
+
+    .pt-medal.bronze {
+      background: linear-gradient(135deg, #f97316, #ea580c);
+      box-shadow: 0 0 15px rgba(249, 115, 22, 0.4);
+    }
+
+    .pt-team {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 700;
+    }
+
+    .pt-team-logo {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid var(--border);
+    }
+
+    .pt-stats {
+      text-align: center;
+      font-weight: 600;
+    }
+
+    .pt-points {
+      font-size: 1.2rem;
+      font-weight: 800;
+      color: var(--primary);
+      text-align: center;
+    }
+
+    /* ===================== POINT TABLE RENDER (JPG) ===================== */
+    .pt-render-wrapper {
+      background: linear-gradient(135deg, #0f172a, #1e293b);
+      padding: 40px;
+      border-radius: 20px;
+      font-family: 'Orbitron', 'Montserrat', sans-serif;
+      box-shadow: 0 0 60px rgba(139,92,246,0.4);
+    }
+
+    .pt-render-title {
+      text-align: center;
+      color: white;
+      margin-bottom: 10px;
+      font-size: 32px;
+      font-weight: 800;
+      letter-spacing: 2px;
+      font-family: 'Orbitron', sans-serif;
+      text-shadow: 0 0 20px rgba(139,92,246,0.6);
+    }
+
+    .pt-render-subtitle {
+      text-align: center;
+      color: #a78bfa;
+      margin-bottom: 30px;
+      font-size: 14px;
+      letter-spacing: 3px;
+      font-family: 'Orbitron', sans-serif;
+    }
+
+    .pt-render-table {
+      width: 100%;
+      border-collapse: collapse;
+      background: rgba(255,255,255,0.95);
+      border-radius: 15px;
+      overflow: hidden;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+    }
+
+    .pt-render-table th {
+      background: linear-gradient(135deg, #8b5cf6, #a78bfa);
+      color: white;
+      padding: 16px 12px;
+      text-align: left;
+      font-weight: 800;
+      font-size: 13px;
+      letter-spacing: 1px;
+      border-bottom: 3px solid #7c3aed;
+    }
+
+    .pt-render-table td {
+      padding: 14px 12px;
+      border-bottom: 1px solid #e5e7eb;
+      color: #1f2937;
+      font-weight: 500;
+    }
+
+    .pt-render-table tr:last-child td {
+      border-bottom: none;
+    }
+
+    .pt-render-table tr:hover {
+      background: #f9fafb;
+    }
+
+    .pt-render-rank {
+      font-weight: 900;
+      font-size: 16px;
+      text-align: center;
+      width: 40px;
+    }
+
+    .pt-render-medal {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      font-weight: 800;
+      font-size: 18px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    }
+
+    .pt-render-medal.gold {
+      background: linear-gradient(135deg, #fbbf24, #f59e0b);
+      color: white;
+    }
+
+    .pt-render-medal.silver {
+      background: linear-gradient(135deg, #e5e7eb, #d1d5db);
+      color: #374151;
+    }
+
+    .pt-render-medal.bronze {
+      background: linear-gradient(135deg, #f97316, #ea580c);
+      color: white;
+    }
+
+    .pt-render-team {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-weight: 700;
+      color: #1f2937;
+    }
+
+    .pt-render-logo {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid #a78bfa;
+      box-shadow: 0 4px 10px rgba(139,92,246,0.3);
+    }
+
+    .pt-render-stat {
+      text-align: center;
+      font-weight: 600;
+      font-size: 14px;
+    }
+
+    .pt-render-points {
+      font-size: 16px;
+      font-weight: 900;
+      color: #8b5cf6;
+      text-align: center;
+    }
+
+    .pt-render-footer {
+      text-align: center;
+      margin-top: 30px;
+      padding-top: 20px;
+      border-top: 2px solid rgba(139,92,246,0.3);
+      color: #a78bfa;
+      font-size: 12px;
+      letter-spacing: 2px;
+      font-family: 'Orbitron', sans-serif;
+    }
+
+    /* ===================== SCORE SUBMIT MODAL ===================== */
+    .score-submit-box {
+      background: white;
+      border: 2px solid var(--border);
+      border-radius: 14px;
+      padding: 1.5rem;
+      margin: 1rem 0;
+    }
+
+    .score-input-group {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin: 1.2rem 0;
+    }
+
+    .score-input-group .team-badge {
+      flex: 1;
+      background: var(--primary);
+      color: white;
+      padding: 12px 16px;
+      border-radius: 10px;
+      font-weight: 700;
+      text-align: center;
+    }
+
+    .score-input-group input {
+      width: 100px;
+      padding: 12px;
+      font-size: 1.3rem;
+      text-align: center;
+      font-weight: 700;
+      margin: 0;
+    }
+
+    .match-vs {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 1rem;
+      margin: 1.5rem 0;
+      padding: 1.5rem;
+      background: var(--card);
+      border-radius: 10px;
+    }
+
+    .match-vs .team {
+      flex: 1;
+      text-align: center;
+    }
+
+    .match-vs .team-name {
+      font-weight: 800;
+      font-size: 1.1rem;
+      color: var(--primary);
+      margin-bottom: 0.5rem;
+    }
+
+    .match-vs .team-logo {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 3px solid var(--primary);
+      margin: 0 auto 0.5rem;
+      display: block;
+    }
+
+    .vs-separator {
+      font-size: 1.5rem;
+      font-weight: 800;
+      color: #ef4444;
+    }
+
   </style>
 </head>
 <body>
   <div class="header">
     <nav>
-      <button onclick="showSection('viewer')" class="active" id="nav-viewer">🏆 Viewer</button>
-      <button onclick="showSection('scorecard')" id="nav-scorecard">⚽ Scorecard</button>
-      <button onclick="showSection('admin')" id="nav-admin">⚙️ Admin</button>
-      <button onclick="showSection('captain')" id="nav-captain">🎖️ Captain</button>
+      <button onclick="showSection('viewer')" class="active" id="nav-viewer"><span class="badge badge-primary">🏆</span> Viewer</button>
+      <button onclick="showSection('scorecard')" id="nav-scorecard"><span class="badge badge-info">⚽</span> Scorecard</button>
+      <button onclick="showSection('admin')" id="nav-admin"><span class="badge badge-warning">⚙️</span> Admin</button>
+      <button onclick="showSection('captain')" id="nav-captain"><span class="badge badge-success">🎖️</span> Captain</button>
     </nav>
   </div>
 
@@ -978,10 +1314,23 @@
     <!-- ===== VIEWER ===== -->
     <div id="viewer" class="section active">
       <h1>La Viola Fleur de Lis</h1>
-      <p style="text-align:center; font-size:1.3rem; margin-bottom:2rem; color:#8b5cf6;">Tournament Hub</p>
-      <div id="viewer-teams"></div>
+      <p style="text-align:center; font-size:1.3rem; margin-bottom:2rem; color:#8b5cf6;">Intra Bid Tournament 2026</p>
+      
       <div class="card">
-        <h2 style="text-align:center; margin-bottom:1.5rem;">📅 Fixtures</h2>
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1.5rem;flex-wrap:wrap;gap:1rem;">
+          <h2 style="margin:0;"><span class="badge badge-primary">🏆</span> Point Table</h2>
+          <button class="btn-success" onclick="downloadPointTableJPG()"><span class="badge badge-success">📥</span> Download JPG</button>
+        </div>
+        <div id="points-table-view"></div>
+      </div>
+
+      <div class="card">
+        <h2 style="text-align:center; margin-bottom:1.5rem;"><span class="badge badge-info">👥</span> Teams</h2>
+        <div id="viewer-teams"></div>
+      </div>
+
+      <div class="card">
+        <h2 style="text-align:center; margin-bottom:1.5rem;"><span class="badge badge-warning">📅</span> Recent Matches</h2>
         <div id="viewer-fixtures"></div>
       </div>
     </div>
@@ -991,14 +1340,14 @@
       <div class="card" style="max-width:1100px; margin:0 auto;">
         <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1.5rem;flex-wrap:wrap;gap:1rem;">
           <div>
-            <h2 style="margin:0;">⚽ Scorecard Generator</h2>
+            <h2 style="margin:0;"><span class="badge badge-info">⚽</span> Scorecard Generator</h2>
             <p style="color:var(--text-light); margin:0.5rem 0 0;">Create professional match scorecards</p>
           </div>
           <span class="premium-badge" style="font-size:0.9rem;padding:8px 16px;">PREMIUM</span>
         </div>
 
         <div style="background:linear-gradient(135deg, rgba(217, 70, 239, 0.1), rgba(168, 85, 247, 0.1));border-radius:12px;padding:1.5rem;margin-bottom:1.5rem;">
-          <p style="color:var(--text);margin:0;font-weight:600;margin-bottom:1rem;">📋 Match Input Format</p>
+          <p style="color:var(--text);margin:0;font-weight:600;margin-bottom:1rem;"><span class="badge badge-warning">📋</span> Match Input Format</p>
           <div style="background:white;padding:1rem;border-radius:8px;border-left:4px solid #8b5cf6;font-family:monospace;font-size:0.9rem;color:#374151;line-height:1.6;">
             Team1 ⚒️ Team2<br>
             Player1 (2)🆚(1) Player2<br>
@@ -1099,7 +1448,7 @@
       <div class="card" style="max-width:1000px; margin:0 auto;">
 
         <div style="text-align:center;margin-bottom:1.5rem;">
-          <h2 style="margin:0;">⚙️ Admin Panel</h2>
+          <h2 style="margin:0;"><span class="badge badge-warning">⚙️</span> Admin Panel</h2>
           <p style="color:var(--text-light);margin-top:0.4rem;">Manage teams, fixtures and scorecard settings</p>
         </div>
 
@@ -1117,8 +1466,9 @@
           <div class="admin-tabs">
             <button class="admin-tab-btn active" onclick="showAdminTab(1)" id="atab-1">👥 Teams</button>
             <button class="admin-tab-btn" onclick="showAdminTab(2)" id="atab-2">📅 Fixtures</button>
-            <button class="admin-tab-btn" onclick="showAdminTab(3)" id="atab-3">🎨 SC Config</button>
-            <button class="admin-tab-btn" onclick="showAdminTab(4)" id="atab-4">🚀 Generator</button>
+            <button class="admin-tab-btn" onclick="showAdminTab(3)" id="atab-3">📊 Results</button>
+            <button class="admin-tab-btn" onclick="showAdminTab(4)" id="atab-4">🎨 SC Config</button>
+            <button class="admin-tab-btn" onclick="showAdminTab(5)" id="atab-5">🚀 Generator</button>
           </div>
 
           <!-- ── Tab 1: Team Registration ── -->
@@ -1210,8 +1560,20 @@
             </div>
           </div>
 
-          <!-- ── Tab 3: Scorecard Config ── -->
+          <!-- ── Tab 3: Results Submission ── -->
           <div id="admin-tab3" style="display:none;">
+            <div style="background:var(--card);border-radius:14px;padding:1.2rem;border:2px solid var(--border);margin-bottom:1.5rem;display:flex;align-items:flex-start;gap:12px;">
+              <div style="font-size:2rem;flex-shrink:0;">ℹ️</div>
+              <div>
+                <div style="font-weight:700;color:var(--text);margin-bottom:4px;">Submit Match Results</div>
+                <div style="color:var(--text-light);font-size:0.9rem;">Enter scores for completed fixtures. Point table will automatically update.</div>
+              </div>
+            </div>
+            <div id="admin-results-list"></div>
+          </div>
+
+          <!-- ── Tab 4: Scorecard Config ── -->
+          <div id="admin-tab4" style="display:none;">
             <div style="background:var(--card);border-radius:14px;padding:1.5rem;border:2px solid var(--border);margin-bottom:1.5rem;">
               <h3 style="margin:0 0 0.5rem;">🎨 Scorecard Settings</h3>
               <p style="color:var(--text-light);margin-bottom:1.2rem;font-size:0.9rem;">Set default tournament info used in scorecard generator</p>
@@ -1241,14 +1603,37 @@
               <button class="btn-primary" style="width:100%; margin-top:1.2rem;padding:14px;" onclick="saveScConfig()">💾 Save Config</button>
             </div>
 
+            <div style="background:linear-gradient(135deg,rgba(139,92,246,0.07),rgba(167,139,250,0.07));border-radius:14px;padding:1.5rem;border:2px solid var(--border);margin-bottom:1.5rem;">
+              <h3 style="margin:0 0 1rem;">⏰ Match Deadlines</h3>
+              <p style="color:var(--text-light);margin-bottom:1.2rem;font-size:0.9rem;">Set times for First Day, Star, and Last Day. These will apply to all fixtures.</p>
+
+              <div class="form-grid">
+                <div class="form-field required">
+                  <label>🚨 First Day Time</label>
+                  <input type="time" id="timingFirstDay" placeholder="00:00">
+                </div>
+                <div class="form-field required">
+                  <label>⭐ Star Time</label>
+                  <input type="time" id="timingStar" placeholder="23:00">
+                </div>
+                <div class="form-field required">
+                  <label>⛔ Last Day Time</label>
+                  <input type="time" id="timingLastDay" placeholder="01:20">
+                </div>
+              </div>
+
+              <button class="btn-success" style="width:100%; margin-top:1rem;padding:14px;" onclick="saveFixtureTimings()">⏰ Save Timings</button>
+            </div>
+
             <div>
               <h3 style="margin-bottom:1rem;">📌 Current Config</h3>
-              <div id="scConfigDisplay" style="background:white; padding:1rem; border-radius:8px; border:2px solid var(--border);"></div>
+              <div id="scConfigDisplay" style="background:white; padding:1rem; border-radius:8px; border:2px solid var(--border);margin-bottom:1.5rem;"></div>
+              <div id="timingsDisplay" style="background:white; padding:1rem; border-radius:8px; border:2px solid var(--border);"></div>
             </div>
           </div>
 
-          <!-- ── Tab 4: Fixture Generator ── -->
-          <div id="admin-tab4" style="display:none;">
+          <!-- ── Tab 5: Fixture Generator ── -->
+          <div id="admin-tab5" style="display:none;">
             <div style="background:var(--card);border-radius:14px;padding:1.2rem;border:2px solid var(--border);margin-bottom:1.5rem;display:flex;align-items:flex-start;gap:12px;">
               <div style="font-size:2rem;flex-shrink:0;">ℹ️</div>
               <div>
@@ -1267,7 +1652,7 @@
     <div id="captain" class="section">
       <div class="card" style="max-width:960px; margin:0 auto;">
         <div style="text-align:center;margin-bottom:1.5rem;">
-          <h2 style="margin:0;">🎖️ Captain Panel</h2>
+          <h2 style="margin:0;"><span class="badge badge-success">🎖️</span> Captain Panel</h2>
         </div>
 
         <!-- Captain Login -->
@@ -1469,12 +1854,12 @@
 
   </div>
 
-  <!-- Hidden render zone for JPG -->
+  <!-- Hidden render zones for JPG exports -->
+  <div id="pt-render-zone" style="position:fixed;left:-9999px;top:0;pointer-events:none;z-index:-1;"></div>
   <div id="team-info-render-zone" style="position:fixed;left:-9999px;top:0;pointer-events:none;z-index:-1;"></div>
   <div class="toast" id="toast"></div>
 
   <script>
-    // ====== FIREBASE ======
     let db, storage;
     const ADMIN_PASSWORD = "*laviola#";
     let currentTeamId = null;
@@ -1482,29 +1867,10 @@
     let allPlayers = [];
     let scArchives = [];
     let scConfig = { name: 'La Viola Cup', stage: 'Group Stage', logo: '' };
+    let fixtureTimings = { firstDayTime: '00:00', starTime: '23:00', lastDayTime: '01:20' };
     let teamLogoMap = {};
     let rosterFilter = 'all';
-
-    window.addEventListener('load', function () {
-      if (typeof firebase === 'undefined') { alert('Firebase failed to load. Please refresh.'); return; }
-      const firebaseConfig = {
-        apiKey: "AIzaSyCtXOQb7E2fAX_EZmBXZHgH5Jhaq4h9J20",
-        authDomain: "llfc-f9f99.firebaseapp.com",
-        databaseURL: "https://llfc-f9f99-default-rtdb.firebaseio.com",
-        projectId: "llfc-f9f99",
-        storageBucket: "llfc-f9f99.firebasestorage.app",
-        messagingSenderId: "373649276495",
-        appId: "1:373649276495:web:5668ec4c50f43de6b3343a"
-      };
-      try {
-        firebase.initializeApp(firebaseConfig);
-        db = firebase.database();
-        storage = firebase.storage();
-        showSection('viewer');
-        loadScConfig();
-        loadScArchives();
-      } catch (e) { alert('Firebase error: ' + e.message); }
-    });
+    let standings = {};
 
     function checkFirebase() {
       if (!db || !storage) { showToast('Firebase is still loading…', 'error'); return false; }
@@ -1512,11 +1878,17 @@
     }
 
     function showToast(msg, type = 'success') {
-      const t = document.getElementById('toast');
-      t.textContent = msg;
-      t.className = 'toast ' + type;
-      t.style.display = 'block';
-      setTimeout(() => t.style.display = 'none', 3000);
+      try {
+        const t = document.getElementById('toast');
+        if (t) {
+          t.textContent = msg;
+          t.className = 'toast ' + type;
+          t.style.display = 'block';
+          setTimeout(() => t.style.display = 'none', 3000);
+        }
+      } catch(e) {
+        console.log('Toast:', msg);
+      }
     }
 
     // ====== EDIT MODAL ======
@@ -1737,21 +2109,22 @@
       document.getElementById(section).classList.add('active');
       document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
       document.getElementById('nav-' + section).classList.add('active');
-      if (section === 'viewer')   { loadViewerData(); loadViewerFixtures(); }
+      if (section === 'viewer')   { loadViewerData(); loadViewerFixtures(); calculateStandings(); }
       if (section === 'admin')    loadAdminTeams();
       if (section === 'scorecard'){ loadScArchives(); loadTeamLogosForSc(); }
       if (section === 'captain')  loadTeamsForCaptainLogin();
     }
 
     function showAdminTab(tab) {
-      for (let i = 1; i <= 4; i++) {
+      for (let i = 1; i <= 5; i++) {
         document.getElementById('admin-tab' + i).style.display = tab === i ? 'block' : 'none';
         const btn = document.getElementById('atab-' + i);
         if (btn) btn.classList.toggle('active', tab === i);
       }
       if (tab === 2) { loadTeamsForFixtures(); loadAdminFixtures(); }
-      if (tab === 3) renderScConfigDisplay();
-      if (tab === 4) loadFixtureGeneratorData();
+      if (tab === 3) loadAdminResults();
+      if (tab === 4) { renderScConfigDisplay(); loadFixtureTimings(); }
+      if (tab === 5) loadFixtureGeneratorData();
     }
 
     function showCaptainTab(tab) {
@@ -1978,6 +2351,58 @@
       </div>`;
     }
 
+    function renderTimingsDisplay() {
+      const d = document.getElementById('timingsDisplay');
+      if (!d) return;
+      d.innerHTML = `<div>
+        <div style="font-weight:800;font-size:1rem;color:var(--primary);margin-bottom:0.8rem;">⏰ Current Match Deadlines</div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1rem;">
+          <div style="background:linear-gradient(135deg,rgba(245,158,11,0.1),rgba(251,191,36,0.1));border-radius:8px;padding:1rem;border-left:4px solid #f59e0b;">
+            <div style="color:#f59e0b;font-weight:700;font-size:0.85rem;">🚨 First Day</div>
+            <div style="font-size:1.5rem;font-weight:800;color:var(--text);margin-top:0.5rem;">${fixtureTimings.firstDayTime || '00:00'}</div>
+          </div>
+          <div style="background:linear-gradient(135deg,rgba(251,191,36,0.1),rgba(253,230,138,0.1));border-radius:8px;padding:1rem;border-left:4px solid #fbbf24;">
+            <div style="color:#fbbf24;font-weight:700;font-size:0.85rem;">⭐ Star</div>
+            <div style="font-size:1.5rem;font-weight:800;color:var(--text);margin-top:0.5rem;">${fixtureTimings.starTime || '23:00'}</div>
+          </div>
+          <div style="background:linear-gradient(135deg,rgba(239,68,68,0.1),rgba(252,165,165,0.1));border-radius:8px;padding:1rem;border-left:4px solid #ef4444;">
+            <div style="color:#ef4444;font-weight:700;font-size:0.85rem;">⛔ Last Day</div>
+            <div style="font-size:1.5rem;font-weight:800;color:var(--text);margin-top:0.5rem;">${fixtureTimings.lastDayTime || '01:20'}</div>
+          </div>
+        </div>
+      </div>`;
+    }
+
+    function saveFixtureTimings() {
+      if (!checkFirebase()) return;
+      const firstDay = document.getElementById('timingFirstDay').value;
+      const star = document.getElementById('timingStar').value;
+      const lastDay = document.getElementById('timingLastDay').value;
+      
+      if (!firstDay || !star || !lastDay) return showToast('Fill all timing fields', 'error');
+      
+      fixtureTimings = { firstDayTime: firstDay, starTime: star, lastDayTime: lastDay };
+      
+      db.ref('fixtureTimings').set(fixtureTimings).then(() => {
+        showToast('✅ Timings saved!');
+        renderTimingsDisplay();
+      });
+    }
+
+    function loadFixtureTimings() {
+      if (!checkFirebase()) return;
+      db.ref('fixtureTimings').once('value', snap => {
+        const data = snap.val();
+        if (data) {
+          fixtureTimings = data;
+          document.getElementById('timingFirstDay').value = fixtureTimings.firstDayTime || '00:00';
+          document.getElementById('timingStar').value = fixtureTimings.starTime || '23:00';
+          document.getElementById('timingLastDay').value = fixtureTimings.lastDayTime || '01:20';
+          renderTimingsDisplay();
+        }
+      });
+    }
+
     // ====== FIXTURE GENERATOR ======
     function loadFixtureGeneratorData() {
       if (!checkFirebase()) return;
@@ -2089,9 +2514,17 @@
       const t2_ldNon    = getPlayersByCategory(squad2, 'lastday_nonvpn');
       const t2_capt     = getPlayersByCategory(squad2, 'captain')[0];
 
-      const fdDate = new Date(date); fdDate.setDate(fdDate.getDate()+1); fdDate.setHours(0,0,0,0);
-      const starDate = new Date(date); starDate.setDate(starDate.getDate()+1); starDate.setHours(23,0,0,0);
-      const ldDate = new Date(date); ldDate.setDate(ldDate.getDate()+2); ldDate.setHours(1,20,0,0);
+      const fdDate = new Date(date); fdDate.setDate(fdDate.getDate()+1); 
+      const [fdH, fdM] = (fixtureTimings.firstDayTime || '00:00').split(':');
+      fdDate.setHours(parseInt(fdH), parseInt(fdM), 0, 0);
+      
+      const starDate = new Date(date); starDate.setDate(starDate.getDate()+1); 
+      const [stH, stM] = (fixtureTimings.starTime || '23:00').split(':');
+      starDate.setHours(parseInt(stH), parseInt(stM), 0, 0);
+      
+      const ldDate = new Date(date); ldDate.setDate(ldDate.getDate()+2); 
+      const [ldH, ldM] = (fixtureTimings.lastDayTime || '01:20').split(':');
+      ldDate.setHours(parseInt(ldH), parseInt(ldM), 0, 0);
 
       const firstDayMatches = buildMatchups(t1_fdKey, t1_fdNorm, t2_fdKey, t2_fdNorm);
       const starMatches     = buildMatchups(t1_starKey, t1_starNorm, t2_starKey, t2_starNorm);
@@ -2146,12 +2579,12 @@ ROOM SETTING: 8 MINUTES NORMAL
       const len1 = Math.max(vpn1.length, nonVpn2.length);
       for (let i = 0; i < len1; i++) {
         const p1 = vpn1[i], p2 = nonVpn2[i];
-        if (p1 && p2) matches.push(`${p1.playerName} 🔑(VPN) 🆚 ${p2.playerName} (Non-VPN)`);
+        if (p1 && p2) matches.push(`${p1.playerName} 🔑 🆚 ${p2.playerName}`);
       }
       const len2 = Math.max(nonVpn1.length, vpn2.length);
       for (let i = 0; i < len2; i++) {
         const p1 = nonVpn1[i], p2 = vpn2[i];
-        if (p1 && p2) matches.push(`${p1.playerName} (Non-VPN) 🆚 ${p2.playerName} 🔑(VPN)`);
+        if (p1 && p2) matches.push(`${p1.playerName} 🆚 🔑 ${p2.playerName}`);
       }
       return matches.join('\n') || '(No matches)';
     }
@@ -2446,7 +2879,10 @@ ROOM SETTING: 8 MINUTES NORMAL
 
     // ====== VIEWER ======
     function loadViewerData() {
-      if (!checkFirebase()) return;
+      if (!checkFirebase()) {
+        document.getElementById('viewer-teams').innerHTML = '<div class="card" style="text-align:center;color:#6b7280;"><p>📡 Connecting to database...</p></div>';
+        return;
+      }
       db.ref('teams').once('value', snapshot => {
         const teams = snapshot.val() || {};
         let html = '';
@@ -2468,27 +2904,55 @@ ROOM SETTING: 8 MINUTES NORMAL
     }
 
     function loadViewerFixtures() {
-      if (!checkFirebase()) return;
+      if (!checkFirebase()) {
+        document.getElementById('viewer-fixtures').innerHTML = '<div style="text-align:center;padding:2rem;color:#6b7280;">📡 Connecting to database...</div>';
+        return;
+      }
       Promise.all([db.ref('fixtures').once('value'), db.ref('teams').once('value')]).then(([fs, ts]) => {
         const fixtures = fs.val() || {}, teams = ts.val() || {};
         let html = '';
+        
+        const withResults = [];
         Object.entries(fixtures).forEach(([id, f]) => {
           const t1 = teams[f.team1], t2 = teams[f.team2];
-          if (t1 && t2) {
-            html += `<div class="fixture-item">
-              <div style="display:flex;align-items:center;gap:1rem;flex-wrap:wrap;">
-                <img src="${t1.logo}" style="width:50px;height:50px;border-radius:50%;object-fit:cover;">
-                <div class="fixture-teams">${t1.name} vs ${t2.name}</div>
-                <img src="${t2.logo}" style="width:50px;height:50px;border-radius:50%;object-fit:cover;">
-              </div>
-              <div>
-                <div class="fixture-date">📅 ${f.date} • ${f.format}</div>
-                ${f.venue ? `<div class="fixture-date">📍 ${f.venue}</div>` : ''}
-              </div>
-            </div>`;
+          if (!t1 || !t2) return;
+          if (f.result) {
+            withResults.push({id, ...f, t1, t2});
           }
         });
-        document.getElementById('viewer-fixtures').innerHTML = html || '<p style="text-align:center;color:#6b7280;">No fixtures yet</p>';
+
+        // Show most recent matches first
+        withResults.sort((a, b) => new Date(b.date) - new Date(a.date));
+
+        if (withResults.length === 0) {
+          html = '<div style="text-align:center;padding:2rem;color:#6b7280;">No completed matches yet.</div>';
+        } else {
+          withResults.slice(0, 5).forEach(f => {
+            const r = f.result;
+            const winner = r.score1 > r.score2 ? f.t1.name : r.score2 > r.score1 ? f.t2.name : 'Draw';
+            const winnerEmoji = r.score1 > r.score2 ? '🥇' : r.score2 > r.score1 ? '🥈' : '🤝';
+            html += `<div class="fixture-item">
+              <div style="display:flex;align-items:center;gap:1rem;flex:1;min-width:200px;">
+                <img src="${f.t1.logo}" style="width:50px;height:50px;border-radius:50%;object-fit:cover;">
+                <div>
+                  <div class="fixture-teams">${f.t1.name} ${r.score1}</div>
+                  <div class="fixture-date">📅 ${f.date} • ${f.format}</div>
+                </div>
+              </div>
+              <div style="text-align:center;font-size:1.3rem;font-weight:800;color:var(--primary);">
+                ${r.score1} - ${r.score2}
+              </div>
+              <div style="display:flex;align-items:center;gap:1rem;flex:1;justify-content:flex-end;min-width:200px;">
+                <div style="text-align:right;">
+                  <div class="fixture-teams">${r.score2} ${f.t2.name}</div>
+                  <div class="fixture-date" style="text-align:right;">${winnerEmoji} ${winner}</div>
+                </div>
+                <img src="${f.t2.logo}" style="width:50px;height:50px;border-radius:50%;object-fit:cover;">
+              </div>
+            </div>`;
+          });
+        }
+        document.getElementById('viewer-fixtures').innerHTML = html;
       });
     }
 
@@ -2663,6 +3127,337 @@ ROOM SETTING: 8 MINUTES NORMAL
         showToast('Downloaded!');
       } catch(e) { showToast('Download failed: ' + e.message, 'error'); }
     }
+
+    // ====== POINT TABLE SYSTEM ======
+    function calculateStandings() {
+      if (!checkFirebase()) {
+        const container = document.getElementById('points-table-view');
+        if (container) container.innerHTML = '<div class="card" style="text-align:center;color:#6b7280;"><p>📡 Connecting to database...</p></div>';
+        return;
+      }
+      db.ref('teams').once('value', teamsSnap => {
+        const teams = teamsSnap.val() || {};
+        standings = {};
+
+        Object.entries(teams).forEach(([teamId, team]) => {
+          standings[teamId] = {
+            teamId, name: team.name, logo: team.logo,
+            played: 0, wins: 0, draws: 0, losses: 0, gf: 0, ga: 0, points: 0
+          };
+        });
+
+        db.ref('fixtures').once('value', fixturesSnap => {
+          const fixtures = fixturesSnap.val() || {};
+          Object.entries(fixtures).forEach(([id, fixture]) => {
+            if (!fixture.result) return;
+            const r = fixture.result;
+            const t1 = standings[fixture.team1];
+            const t2 = standings[fixture.team2];
+            if (!t1 || !t2) return;
+
+            t1.played++; t2.played++;
+            t1.gf += r.score1; t1.ga += r.score2;
+            t2.gf += r.score2; t2.ga += r.score1;
+
+            if (r.score1 > r.score2) {
+              t1.wins++; t1.points += 3;
+              t2.losses++;
+            } else if (r.score2 > r.score1) {
+              t2.wins++; t2.points += 3;
+              t1.losses++;
+            } else {
+              t1.draws++; t1.points++;
+              t2.draws++; t2.points++;
+            }
+          });
+
+          Object.values(standings).forEach(t => { t.gd = t.gf - t.ga; });
+          const sorted = Object.values(standings).sort((a, b) => {
+            if (b.points !== a.points) return b.points - a.points;
+            if (b.gd !== a.gd) return b.gd - a.gd;
+            return b.gf - a.gf;
+          });
+
+          renderPointsTable(sorted);
+        });
+      });
+    }
+
+    function renderPointsTable(sorted) {
+      const container = document.getElementById('points-table-view');
+      if (!container) return;
+
+      let html = `<div class="pt-container">
+        <div class="pt-header">🏆 LA VIOLA FLEUR DE LIS TOURNAMENT STANDINGS 🏆</div>
+        <table class="pt-table">
+          <thead class="pt-thead">
+            <tr>
+              <th style="width:60px;">Rank</th>
+              <th style="flex:1;">Team</th>
+              <th class="pt-stats">M</th>
+              <th class="pt-stats">W</th>
+              <th class="pt-stats">D</th>
+              <th class="pt-stats">L</th>
+              <th class="pt-stats">GF</th>
+              <th class="pt-stats">GA</th>
+              <th class="pt-stats">GD</th>
+              <th style="width:70px;" class="pt-points">Pts</th>
+            </tr>
+          </thead>
+          <tbody class="pt-tbody">`;
+
+      sorted.forEach((team, idx) => {
+        const rank = idx + 1;
+        const medal = rank === 1 ? '🥇' : rank === 2 ? '🥈' : rank === 3 ? '🥉' : '';
+        html += `<tr>
+          <td class="pt-rank">${rank}</td>
+          <td>
+            <div class="pt-team">
+              <img src="${team.logo}" class="pt-team-logo">
+              <span>${team.name}</span>
+            </div>
+          </td>
+          <td class="pt-stats">${team.played}</td>
+          <td class="pt-stats">${team.wins}</td>
+          <td class="pt-stats">${team.draws}</td>
+          <td class="pt-stats">${team.losses}</td>
+          <td class="pt-stats">${team.gf}</td>
+          <td class="pt-stats">${team.ga}</td>
+          <td class="pt-stats">${team.gd > 0 ? '+' : ''}${team.gd}</td>
+          <td class="pt-points">${team.points}</td>
+        </tr>`;
+      });
+
+      html += `</tbody></table></div>`;
+      container.innerHTML = html;
+    }
+
+    async function downloadPointTableJPG() {
+      if (Object.keys(standings).length === 0) return showToast('No standings data', 'error');
+      const sorted = Object.values(standings).sort((a, b) => {
+        if (b.points !== a.points) return b.points - a.points;
+        if (b.gd !== a.gd) return b.gd - a.gd;
+        return b.gf - a.gf;
+      });
+
+      showToast('Generating point table…');
+      const zone = document.getElementById('pt-render-zone');
+      zone.innerHTML = buildPointTableHTML(sorted);
+      const el = zone.firstElementChild;
+      if (!el) return showToast('Render error', 'error');
+
+      await document.fonts.ready;
+      const imgs = el.querySelectorAll('img');
+      await Promise.all(Array.from(imgs).map(img => new Promise(res => {
+        if (img.complete) return res();
+        img.onload = res; img.onerror = res;
+      })));
+      await new Promise(r => setTimeout(r, 300));
+
+      try {
+        const canvas = await html2canvas(el, { scale: 2.5, useCORS: true, backgroundColor: '#0f172a', logging: false });
+        const link = document.createElement('a');
+        link.download = `LA_VIOLA_STANDINGS_${new Date().toISOString().split('T')[0]}.jpg`;
+        link.href = canvas.toDataURL('image/jpeg', 0.95);
+        link.click();
+        showToast('✅ Point table downloaded!');
+      } catch(e) {
+        showToast('Download failed: ' + e.message, 'error');
+      }
+    }
+
+    function buildPointTableHTML(sorted) {
+      const now = new Date();
+      const dateStr = now.toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' });
+
+      let tableHTML = `<tr>
+        <th>Rank</th>
+        <th>Team</th>
+        <th>M</th>
+        <th>W</th>
+        <th>D</th>
+        <th>L</th>
+        <th>GF</th>
+        <th>GA</th>
+        <th>GD</th>
+        <th>Points</th>
+      </tr>`;
+
+      sorted.forEach((team, idx) => {
+        const rank = idx + 1;
+        const medalClass = rank === 1 ? 'gold' : rank === 2 ? 'silver' : rank === 3 ? 'bronze' : '';
+        const medal = rank === 1 ? '🥇' : rank === 2 ? '🥈' : rank === 3 ? '🥉' : '';
+        const medalHTML = medalClass ? `<div class="pt-render-medal ${medalClass}">${medal}</div>` : `<div class="pt-render-rank">${rank}</div>`;
+
+        tableHTML += `<tr>
+          <td>${medalHTML}</td>
+          <td>
+            <div class="pt-render-team">
+              <img src="${team.logo}" class="pt-render-logo">
+              <span>${team.name}</span>
+            </div>
+          </td>
+          <td class="pt-render-stat">${team.played}</td>
+          <td class="pt-render-stat">${team.wins}</td>
+          <td class="pt-render-stat">${team.draws}</td>
+          <td class="pt-render-stat">${team.losses}</td>
+          <td class="pt-render-stat">${team.gf}</td>
+          <td class="pt-render-stat">${team.ga}</td>
+          <td class="pt-render-stat">${team.gd > 0 ? '+' : ''}${team.gd}</td>
+          <td class="pt-render-points">${team.points}</td>
+        </tr>`;
+      });
+
+      return `<div class="pt-render-wrapper">
+        <div class="pt-render-title">🏆 LA VIOLA FLEUR DE LIS 🏆</div>
+        <div class="pt-render-subtitle">INTRA BID TOURNAMENT STANDINGS</div>
+        <table class="pt-render-table">
+          ${tableHTML}
+        </table>
+        <div class="pt-render-footer">
+          📊 STANDINGS AS OF ${dateStr} | FOLLOW US 🔥
+        </div>
+      </div>`;
+    }
+
+    // ====== ADMIN RESULTS SUBMISSION ======
+    function loadAdminResults() {
+      if (!checkFirebase()) return;
+      Promise.all([db.ref('fixtures').once('value'), db.ref('teams').once('value')]).then(([fs, ts]) => {
+        const fixtures = fs.val() || {}, teams = ts.val() || {};
+        let html = '';
+
+        Object.entries(fixtures).forEach(([fixtureId, f]) => {
+          const t1 = teams[f.team1], t2 = teams[f.team2];
+          if (!t1 || !t2) return;
+
+          const result = f.result;
+          const hasResult = !!result;
+          const status = hasResult ? '✅ Completed' : '⏳ Pending';
+          const statusColor = hasResult ? '#10b981' : '#f59e0b';
+
+          html += `<div class="score-submit-box">
+            <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:1rem;flex-wrap:wrap;gap:1rem;">
+              <div>
+                <div style="display:flex;align-items:center;gap:10px;margin-bottom:0.5rem;">
+                  <img src="${t1.logo}" style="width:40px;height:40px;border-radius:50%;object-fit:cover;">
+                  <span style="font-weight:800;font-size:1rem;">${t1.name}</span>
+                </div>
+                <div style="font-size:0.9rem;color:var(--text-light);">📅 ${f.date} • ${f.format}</div>
+              </div>
+              <span style="background:${statusColor}20;color:${statusColor};padding:6px 12px;border-radius:20px;font-weight:700;font-size:0.85rem;">
+                ${hasResult ? '✅' : '⏳'} ${status}
+              </span>
+            </div>
+
+            <div class="match-vs">
+              <div class="team">
+                <img src="${t1.logo}" class="team-logo">
+                <div class="team-name">${t1.name}</div>
+              </div>
+              <div class="vs-separator">⚽</div>
+              <div class="team">
+                <img src="${t2.logo}" class="team-logo">
+                <div class="team-name">${t2.name}</div>
+              </div>
+            </div>
+
+            <div class="score-input-group" style="justify-content:center;gap:1.5rem;">
+              <input type="number" id="score1-${fixtureId}" min="0" placeholder="0" value="${result ? result.score1 : ''}" style="width:80px;font-size:1.5rem;">
+              <span style="font-weight:900;font-size:1.5rem;color:#ef4444;">-</span>
+              <input type="number" id="score2-${fixtureId}" min="0" placeholder="0" value="${result ? result.score2 : ''}" style="width:80px;font-size:1.5rem;">
+            </div>
+
+            <div style="display:flex;gap:1rem;flex-wrap:wrap;margin-top:1.2rem;">
+              <button class="btn-success" style="flex:1;padding:12px;" onclick="submitFixtureResult('${fixtureId}')">
+                ${hasResult ? '📝 Update' : '✅ Submit'} Result
+              </button>
+              ${hasResult ? `<button class="btn-danger" style="flex:1;padding:12px;" onclick="clearFixtureResult('${fixtureId}')">🗑️ Clear</button>` : ''}
+            </div>
+          </div>`;
+        });
+
+        if (Object.keys(fixtures).length === 0) {
+          html = '<div style="text-align:center;padding:3rem;color:#6b7280;"><div style="font-size:2rem;margin-bottom:1rem;">📭</div>No fixtures created yet.</div>';
+        }
+
+        document.getElementById('admin-results-list').innerHTML = html;
+      });
+    }
+
+    function submitFixtureResult(fixtureId) {
+      if (!checkFirebase()) return;
+      const s1 = parseInt(document.getElementById('score1-' + fixtureId).value);
+      const s2 = parseInt(document.getElementById('score2-' + fixtureId).value);
+
+      if (isNaN(s1) || isNaN(s2)) return showToast('Enter valid scores', 'error');
+
+      db.ref('fixtures/' + fixtureId + '/result').set({ score1: s1, score2: s2, submittedAt: new Date().toISOString() })
+        .then(() => {
+          showToast('✅ Result submitted! Point table updated.');
+          calculateStandings();
+          loadAdminResults();
+        });
+    }
+
+    function clearFixtureResult(fixtureId) {
+      if (!checkFirebase()) return;
+      if (!confirm('Clear this result?')) return;
+      db.ref('fixtures/' + fixtureId + '/result').remove()
+        .then(() => {
+          showToast('Result cleared');
+          calculateStandings();
+          loadAdminResults();
+        });
+    }
+
+    // ====== FIREBASE INITIALIZATION (After all functions are defined) ======
+    window.addEventListener('load', function () {
+      console.log('Page load event fired');
+      
+      // Show content even if Firebase fails
+      showSection('viewer');
+      
+      if (typeof firebase === 'undefined') {
+        console.log('Firebase not loaded, showing offline mode');
+        showToast('⚠️ Firebase not connected. Offline mode.', 'error');
+        document.body.style.opacity = '1';
+        return;
+      }
+      
+      const firebaseConfig = {
+        apiKey: "AIzaSyCtXOQb7E2fAX_EZmBXZHgH5Jhaq4h9J20",
+        authDomain: "llfc-f9f99.firebaseapp.com",
+        databaseURL: "https://llfc-f9f99-default-rtdb.firebaseio.com",
+        projectId: "llfc-f9f99",
+        storageBucket: "llfc-f9f99.firebasestorage.app",
+        messagingSenderId: "373649276495",
+        appId: "1:373649276495:web:5668ec4c50f43de6b3343a"
+      };
+      try {
+        firebase.initializeApp(firebaseConfig);
+        db = firebase.database();
+        storage = firebase.storage();
+        console.log('Firebase initialized successfully');
+        loadScConfig();
+        loadScArchives();
+        loadFixtureTimings();
+        document.body.style.opacity = '1';
+      } catch (e) {
+        console.error('Firebase error:', e);
+        showToast('Firebase connection error', 'error');
+        document.body.style.opacity = '1';
+      }
+    });
+
+    // Fallback: Show page after 3 seconds if load event doesn't trigger
+    setTimeout(() => {
+      console.log('Fallback timeout triggered');
+      if (document.body.style.opacity !== '1') {
+        document.body.style.opacity = '1';
+        showSection('viewer');
+      }
+    }, 3000);
   </script>
 </body>
 </html>
