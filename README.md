@@ -2538,17 +2538,21 @@
 
 ${team1Name} ⚒️ ${team2Name}
 
+
 🚨 𝗙𝗶𝗿𝘀𝘁 𝗗𝗮𝘆: ${formatDateTime(fdDate)}
 
 ${firstDayMatches}
+
 
 ⭐ 𝗦𝘁𝗮𝗿: ${formatDateTime(starDate)}
 
 ${starMatches}
 
+
 ⛔ 𝗟𝗮𝘀𝘁 𝗗𝗮𝘆: ${formatDateTime(ldDate)}
 
 ${lastDayMatches}
+
 
 𝗣𝗢𝗜𝗡𝗧𝗦:
 ${team1Name}: 
