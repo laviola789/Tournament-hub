@@ -2575,7 +2575,7 @@ ROOM SETTING: 8 MINUTES NORMAL
         const p1 = normalPlayers1[i], p2 = keyPlayers2[i];
         if (p1 && p2) matches.push(`${p1.playerName} 🆚 🔑 ${p2.playerName}`);
       }
-      return matches.join('\n') || '(No matches)';
+      return matches.join('\n\n') || '(No matches)';
     }
 
     function buildLastDayMatchups(vpn1, nonVpn1, vpn2, nonVpn2) {
@@ -2590,7 +2590,7 @@ ROOM SETTING: 8 MINUTES NORMAL
         const p1 = nonVpn1[i], p2 = vpn2[i];
         if (p1 && p2) matches.push(`${p1.playerName} 🆚 🔑 ${p2.playerName}`);
       }
-      return matches.join('\n') || '(No matches)';
+      return matches.join('\n\n') || '(No matches)';
     }
 
     function formatDateForDisplay(dateStr) {
