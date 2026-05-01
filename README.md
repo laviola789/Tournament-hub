@@ -2434,7 +2434,7 @@
             <div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:0.5rem;margin-bottom:1rem;">
               <div>
                 <div class="fixture-teams">${t1.name} vs ${t2.name}</div>
-                <div class="fixture-date">📅 ${fixture.date} • ${fixture.format}</div>
+                <div class="fixture-date">📅 ${formatDateForDisplay(fixture.date)} • ${fixture.format}</div>
                 ${fixture.venue ? `<div class="fixture-date">📍 ${fixture.venue}</div>` : ''}
               </div>
               <span style="font-size:0.8rem;background:${hoursLeft<6?'#fee2e2':'#d1fae5'};color:${hoursLeft<6?'#991b1b':'#065f46'};padding:5px 10px;border-radius:20px;font-weight:700;">${expiryNote}</span>
@@ -2477,7 +2477,7 @@
           const squad1 = squad1Data.squad, squad2 = squad2Data.squad;
           const fixtureText = buildFixtureText(team1.name, team2.name, squad1, squad2, fixtureDate, format);
 
-          window['fgData_' + fixtureId] = { team1, team2, squad1, squad2, fixtureDate, format };
+          window['fgData_' + fixtureId] = { team1, team2, team1Id, team2Id, squad1, squad2, fixtureDate, format };
 
           document.getElementById('fg-output-' + fixtureId).innerHTML = `
             <div style="margin-top:1.5rem;">
@@ -2589,12 +2589,27 @@ ROOM SETTING: 8 MINUTES NORMAL
       return matches.join('\n') || '(No matches)';
     }
 
+    function formatDateForDisplay(dateStr) {
+      const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+      const date = new Date(dateStr);
+      const day = date.getDate();
+      const month = months[date.getMonth()];
+      return `${day} ${month}`;
+    }
+
     function formatDateTime(date) {
-      const d = date.getDate().toString().padStart(2,'0');
-      const m = (date.getMonth()+1).toString().padStart(2,'0');
-      const h = date.getHours().toString().padStart(2,'0');
-      const min = date.getMinutes().toString().padStart(2,'0');
-      return `${d}/${m} | ${h}:${min}`;
+      const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+      const day = date.getDate();
+      const month = months[date.getMonth()];
+      
+      let hours = date.getHours();
+      const minutes = date.getMinutes().toString().padStart(2, '0');
+      const ampm = hours >= 12 ? 'PM' : 'AM';
+      hours = hours % 12;
+      hours = hours ? hours : 12; // 0 should be 12
+      const timeStr = `${hours}:${minutes} ${ampm}`;
+      
+      return `${day} ${month} | ${timeStr}`;
     }
 
     function escapeHtml(text) {
@@ -2605,7 +2620,29 @@ ROOM SETTING: 8 MINUTES NORMAL
     function copyFixtureText(fixtureId) {
       const text = window['fixture_text_' + fixtureId];
       if (!text) return showToast('No text to copy', 'error');
-      navigator.clipboard.writeText(text).then(() => showToast('✅ Copied!')).catch(() => showToast('Copy failed', 'error'));
+      
+      // Try modern clipboard API first
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text)
+          .then(() => showToast('✅ Copied to clipboard!'))
+          .catch(() => fallbackCopy(text));
+      } else {
+        fallbackCopy(text);
+      }
+    }
+    
+    function fallbackCopy(text) {
+      const textArea = document.createElement('textarea');
+      textArea.value = text;
+      document.body.appendChild(textArea);
+      textArea.select();
+      try {
+        document.execCommand('copy');
+        showToast('✅ Copied to clipboard!');
+      } catch (err) {
+        showToast('❌ Copy failed', 'error');
+      }
+      document.body.removeChild(textArea);
     }
 
     // ====== TEAM INFO JPG ======
@@ -2614,29 +2651,37 @@ ROOM SETTING: 8 MINUTES NORMAL
       if (!data) return showToast('Generate fixture first', 'error');
       const isHome = teamNum === 1;
       const myTeam = isHome ? data.team1 : data.team2;
+      const teamId = isHome ? data.team1Id : data.team2Id;
       const opponent = isHome ? data.team2 : data.team1;
       const mySquad  = isHome ? data.squad1 : data.squad2;
       const side = isHome ? 'HOME' : 'AWAY';
       showToast(`Generating ${side} info card…`);
-      const zone = document.getElementById('team-info-render-zone');
-      zone.innerHTML = buildTeamInfoCardHTML(myTeam.name, myTeam.logo, mySquad, opponent.name, side, data.fixtureDate, data.format);
-      const el = zone.firstElementChild;
-      if (!el) return showToast('Render error', 'error');
-      await document.fonts.ready;
-      const imgs = el.querySelectorAll('img');
-      await Promise.all(Array.from(imgs).map(img => new Promise(res => { if (img.complete) return res(); img.onload = res; img.onerror = res; })));
-      await new Promise(r => setTimeout(r, 300));
-      try {
-        const canvas = await html2canvas(el, { scale: 2.5, useCORS: true, backgroundColor: '#0a0514', logging: false });
-        const link = document.createElement('a');
-        link.download = `${myTeam.name.replace(/\s+/g,'_')}_${side}_squad.jpg`;
-        link.href = canvas.toDataURL('image/jpeg', 0.97);
-        link.click();
-        showToast(`✅ ${side} info downloaded!`);
-      } catch(e) { showToast('Download failed: ' + e.message, 'error'); }
+      
+      // Fetch full team roster
+      if (!checkFirebase()) return;
+      db.ref('teams/' + teamId + '/players').once('value', snap => {
+        const fullRoster = snap.val() || {};
+        const zone = document.getElementById('team-info-render-zone');
+        zone.innerHTML = buildTeamInfoCardHTML(myTeam.name, myTeam.logo, mySquad, opponent.name, side, data.fixtureDate, data.format, fullRoster);
+        const el = zone.firstElementChild;
+        if (!el) return showToast('Render error', 'error');
+        document.fonts.ready.then(async () => {
+          const imgs = el.querySelectorAll('img');
+          await Promise.all(Array.from(imgs).map(img => new Promise(res => { if (img.complete) return res(); img.onload = res; img.onerror = res; })));
+          await new Promise(r => setTimeout(r, 300));
+          try {
+            const canvas = await html2canvas(el, { scale: 2.5, useCORS: true, backgroundColor: '#0a0514', logging: false });
+            const link = document.createElement('a');
+            link.download = `${myTeam.name.replace(/\s+/g,'_')}_${side}_squad.jpg`;
+            link.href = canvas.toDataURL('image/jpeg', 0.97);
+            link.click();
+            showToast(`✅ ${side} info downloaded!`);
+          } catch(e) { showToast('Download failed: ' + e.message, 'error'); }
+        });
+      });
     }
 
-    function buildTeamInfoCardHTML(teamName, teamLogo, squadData, opponentName, side, fixtureDate, format) {
+    function buildTeamInfoCardHTML(teamName, teamLogo, squadData, opponentName, side, fixtureDate, format, fullRoster = {}) {
       const fdKey   = getPlayersByCategory(squadData, 'firstday_key');
       const fdNorm  = getPlayersByCategory(squadData, 'firstday_normal');
       const stKey   = getPlayersByCategory(squadData, 'star_key');
@@ -2647,37 +2692,68 @@ ROOM SETTING: 8 MINUTES NORMAL
       const formDate = fixtureDate ? new Date(fixtureDate).toLocaleDateString('en-GB',{day:'2-digit',month:'short',year:'numeric'}) : '';
       const sideColor = side === 'HOME' ? '#22c55e' : '#f97316';
 
-      const playerBox = (p, accent, bg) =>
-        `<div style="background:${bg};border:2px solid ${accent};border-radius:8px;padding:7px 12px;margin-bottom:6px;display:flex;align-items:center;gap:8px;">
-          <span style="color:${accent};font-family:'Orbitron',sans-serif;font-size:13px;font-weight:600;word-break:break-word;">${p.playerName}</span>
+      // Convert fullRoster to array of player objects
+      const allTeamPlayers = Object.entries(fullRoster).map(([id, p]) => ({ 
+        playerName: p.name || 'Unknown',
+        uid: p.uid || 'N/A',
+        device: p.device || 'N/A'
+      }));
+
+      const playerBoxWithInfo = (p, accent, bg) => {
+        const uid = p.uid && p.uid !== 'TBD' && p.uid !== 'N/A' ? `<div style="font-size:10px;color:#7c7ca0;margin-top:2px;">🔑 ${p.uid}</div>` : '';
+        const device = p.device && p.device !== 'TBD' && p.device !== 'N/A' ? `<div style="font-size:9px;color:#6b6b8d;">📱 ${p.device}</div>` : '';
+        return `<div style="background:${bg};border:2px solid ${accent};border-radius:8px;padding:10px 12px;margin-bottom:8px;display:flex;flex-direction:column;align-items:flex-start;gap:2px;">
+          <span style="color:${accent};font-family:'Orbitron',sans-serif;font-size:13px;font-weight:700;word-break:break-word;">${p.playerName}</span>
+          ${uid}
+          ${device}
         </div>`;
+      };
 
       function hexToRgb(hex) {
         return `${parseInt(hex.slice(1,3),16)},${parseInt(hex.slice(3,5),16)},${parseInt(hex.slice(5,7),16)}`;
       }
 
-      const keyBox  = (p, acc) => playerBox(p, acc, `rgba(${hexToRgb(acc)},0.15)`);
-      const normBox = (p, acc) => playerBox(p, `${acc}99`, `rgba(${hexToRgb(acc)},0.07)`);
+      const keyBox  = (p, acc) => playerBoxWithInfo(p, acc, `rgba(${hexToRgb(acc)},0.15)`);
+      const normBox = (p, acc) => playerBoxWithInfo(p, `${acc}99`, `rgba(${hexToRgb(acc)},0.07)`);
 
-      return `<div style="width:580px;background:linear-gradient(145deg,#0a0514 0%,#150a2e 40%,#0c0a1e 80%,#080415 100%);padding:28px;border-radius:20px;border:3px solid #8b5cf6;font-family:'Montserrat',sans-serif;box-sizing:border-box;box-shadow:0 0 60px rgba(139,92,246,0.4);">
+      // Build roster table HTML
+      const rosterTableHTML = allTeamPlayers.map((p, idx) => `
+        <div style="display:flex;justify-content:space-between;align-items:center;padding:12px;border-bottom:1px solid rgba(167,139,250,0.2);${idx%2===0?'background:rgba(139,92,246,0.08)':''}">
+          <div style="flex:1;">
+            <div style="color:#ffffff;font-weight:700;font-size:14px;margin-bottom:4px;font-family:'Orbitron',sans-serif;">${p.playerName}</div>
+            <div style="display:flex;gap:12px;font-size:12px;">
+              <div style="color:#a78bfa;"><span style="color:#c4b5fd;">🔑</span> ${p.uid}</div>
+              <div style="color:#7c7ca0;"><span style="color:#a78bfa;">📱</span> ${p.device}</div>
+            </div>
+          </div>
+        </div>
+      `).join('');
+
+      return `<div style="width:620px;background:linear-gradient(145deg,#0a0514 0%,#150a2e 40%,#0c0a1e 80%,#080415 100%);padding:28px;border-radius:20px;border:3px solid #8b5cf6;font-family:'Montserrat',sans-serif;box-sizing:border-box;box-shadow:0 0 60px rgba(139,92,246,0.4);">
         <div style="height:4px;background:linear-gradient(90deg,#8b5cf6,${sideColor},#8b5cf6);border-radius:4px;margin-bottom:20px;"></div>
         <div style="display:flex;align-items:center;gap:18px;margin-bottom:20px;padding-bottom:18px;border-bottom:1px solid rgba(139,92,246,0.35);">
           ${teamLogo ? `<img src="${teamLogo}" style="width:88px;height:88px;border-radius:50%;border:3px solid #a78bfa;object-fit:cover;box-shadow:0 0 25px rgba(139,92,246,0.7);">` : `<div style="width:88px;height:88px;border-radius:50%;border:3px solid #a78bfa;background:linear-gradient(135deg,#2d1b69,#1e1b4b);display:flex;align-items:center;justify-content:center;font-size:36px;">⚽</div>`}
           <div style="flex:1;min-width:0;">
-            <div style="font-family:'Orbitron',sans-serif;font-size:20px;color:#ffffff;font-weight:800;letter-spacing:0.5px;margin-bottom:6px;">${teamName}</div>
-            <div style="display:inline-block;background:${sideColor}22;border:1.5px solid ${sideColor};color:${sideColor};padding:3px 12px;border-radius:20px;font-size:11px;font-weight:700;letter-spacing:1px;margin-bottom:6px;">${side}</div>
-            <div style="color:#7c7ca0;font-size:12px;">vs <span style="color:#a78bfa;font-weight:600;">${opponentName}</span>${formDate ? ` • ${formDate}` : ''}${format ? ` • ${format}` : ''}</div>
+            <div style="font-family:'Orbitron',sans-serif;font-size:24px;color:#ffffff;font-weight:800;letter-spacing:0.5px;margin-bottom:6px;">${teamName}</div>
+            <div style="display:inline-block;background:${sideColor}22;border:2px solid ${sideColor};color:${sideColor};padding:4px 14px;border-radius:20px;font-size:12px;font-weight:800;letter-spacing:1.5px;margin-bottom:8px;font-family:'Orbitron',sans-serif;">${side}</div>
+            <div style="color:#7c7ca0;font-size:13px;">vs <span style="color:#a78bfa;font-weight:700;">${opponentName}</span>${formDate ? ` • ${formDate}` : ''}${format ? ` • ${format}` : ''}</div>
           </div>
-          <div style="text-align:center;flex-shrink:0;"><div style="font-size:22px;">🏆</div><div style="color:rgba(167,139,250,0.5);font-size:9px;font-weight:700;letter-spacing:2px;margin-top:2px;">LA VIOLA</div></div>
+          <div style="text-align:center;flex-shrink:0;"><div style="font-size:28px;">🏆</div><div style="color:rgba(167,139,250,0.5);font-size:9px;font-weight:700;letter-spacing:2px;margin-top:4px;">LA VIOLA</div></div>
         </div>
-        ${fdKey.length>0||fdNorm.length>0 ? `<div style="margin-bottom:16px;"><div style="display:flex;align-items:center;gap:8px;margin-bottom:10px;"><div style="width:3px;height:18px;background:#f59e0b;border-radius:2px;"></div><span style="color:#f59e0b;font-size:12px;font-weight:800;letter-spacing:1.5px;font-family:'Orbitron',sans-serif;">🚨 FIRST DAY</span></div><div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;"><div>${fdKey.length>0?`<div style="color:#f59e0b88;font-size:10px;font-weight:700;letter-spacing:1px;margin-bottom:4px;">🔑 KEY</div>${fdKey.map(p=>keyBox(p,'#f59e0b')).join('')}`:''}</div><div>${fdNorm.length>0?`<div style="color:#c4b5fd88;font-size:10px;font-weight:700;letter-spacing:1px;margin-bottom:4px;">NORMAL</div>${fdNorm.map(p=>normBox(p,'#c4b5fd')).join('')}`:''}</div></div></div>` : ''}
-        ${stKey.length>0||stNorm.length>0 ? `<div style="margin-bottom:16px;"><div style="display:flex;align-items:center;gap:8px;margin-bottom:10px;"><div style="width:3px;height:18px;background:#fbbf24;border-radius:2px;"></div><span style="color:#fbbf24;font-size:12px;font-weight:800;letter-spacing:1.5px;font-family:'Orbitron',sans-serif;">⭐ STAR</span></div><div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;"><div>${stKey.length>0?`<div style="color:#fbbf2488;font-size:10px;font-weight:700;letter-spacing:1px;margin-bottom:4px;">🔑 KEY</div>${stKey.map(p=>keyBox(p,'#fbbf24')).join('')}`:''}</div><div>${stNorm.length>0?`<div style="color:#fde68a88;font-size:10px;font-weight:700;letter-spacing:1px;margin-bottom:4px;">NORMAL</div>${stNorm.map(p=>normBox(p,'#fde68a')).join('')}`:''}</div></div></div>` : ''}
-        ${ldVPN.length>0||ldNon.length>0 ? `<div style="margin-bottom:16px;"><div style="display:flex;align-items:center;gap:8px;margin-bottom:10px;"><div style="width:3px;height:18px;background:#ef4444;border-radius:2px;"></div><span style="color:#ef4444;font-size:12px;font-weight:800;letter-spacing:1.5px;font-family:'Orbitron',sans-serif;">⛔ LAST DAY</span></div><div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;"><div><div style="text-align:center;background:rgba(139,92,246,0.25);border:1px solid #8b5cf6;border-radius:6px;padding:5px;margin-bottom:8px;color:#a78bfa;font-size:10px;font-weight:800;letter-spacing:1px;">🔑 VPN</div>${ldVPN.map(p=>keyBox(p,'#8b5cf6')).join('')}</div><div><div style="text-align:center;background:rgba(239,68,68,0.2);border:1px solid #ef4444;border-radius:6px;padding:5px;margin-bottom:8px;color:#fca5a5;font-size:10px;font-weight:800;letter-spacing:1px;">Non-VPN</div>${ldNon.map(p=>keyBox(p,'#ef4444')).join('')}</div></div></div>` : ''}
-        <div style="border-top:1px solid rgba(139,92,246,0.25);padding-top:12px;margin-top:4px;display:flex;justify-content:space-between;align-items:center;">
-          ${captain ? `<span style="color:#a78bfa;font-size:12px;font-weight:600;font-family:'Orbitron',sans-serif;">👑 <span style="color:#ffffff;">${captain.playerName}</span></span>` : '<span></span>'}
-          <span style="color:rgba(167,139,250,0.35);font-size:9px;letter-spacing:2px;font-weight:700;font-family:'Orbitron',sans-serif;">LA VIOLA FLEUR DE LIS</span>
+        <div style="margin-bottom:16px;">
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:14px;padding:0 4px;">
+            <div style="width:4px;height:20px;background:linear-gradient(180deg,#8b5cf6,${sideColor});border-radius:2px;"></div>
+            <span style="color:#a78bfa;font-size:14px;font-weight:800;letter-spacing:2px;font-family:'Orbitron',sans-serif;">📋 FULL ROSTER (${allTeamPlayers.length})</span>
+          </div>
+          <div style="border:2px solid rgba(139,92,246,0.3);border-radius:12px;overflow:hidden;max-height:500px;overflow-y:auto;background:rgba(0,0,0,0.3);">
+            ${rosterTableHTML}
+          </div>
         </div>
-        <div style="height:3px;background:linear-gradient(90deg,transparent,#8b5cf6,transparent);border-radius:4px;margin-top:12px;"></div>
+        <div style="border-top:1px solid rgba(139,92,246,0.25);padding-top:14px;margin-top:4px;display:flex;justify-content:space-between;align-items:center;">
+          ${captain ? `<span style="color:#a78bfa;font-size:13px;font-weight:700;font-family:'Orbitron',sans-serif;">👑 <span style="color:#fbbf24;">${captain.playerName}</span></span>` : '<span></span>'}
+          <span style="color:rgba(167,139,250,0.4);font-size:10px;letter-spacing:2px;font-weight:700;font-family:'Orbitron',sans-serif;">LA VIOLA FLEUR DE LIS</span>
+        </div>
+        <div style="height:2px;background:linear-gradient(90deg,transparent,#8b5cf6,transparent);border-radius:4px;margin-top:12px;"></div>
       </div>`;
     }
 
