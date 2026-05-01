@@ -2716,12 +2716,12 @@ ROOM SETTING: 8 MINUTES NORMAL
       const keyBox  = (p, acc) => playerBoxWithInfo(p, acc, `rgba(${hexToRgb(acc)},0.15)`);
       const normBox = (p, acc) => playerBoxWithInfo(p, `${acc}99`, `rgba(${hexToRgb(acc)},0.07)`);
 
-      // Build roster table HTML
+      // Build roster table HTML with compact styling
       const rosterTableHTML = allTeamPlayers.map((p, idx) => `
-        <div style="display:flex;justify-content:space-between;align-items:center;padding:12px;border-bottom:1px solid rgba(167,139,250,0.2);${idx%2===0?'background:rgba(139,92,246,0.08)':''}">
+        <div style="display:flex;justify-content:space-between;align-items:center;padding:10px 12px;border-bottom:1px solid rgba(167,139,250,0.15);${idx%2===0?'background:rgba(139,92,246,0.05)':''}">
           <div style="flex:1;">
-            <div style="color:#ffffff;font-weight:700;font-size:14px;margin-bottom:4px;font-family:'Orbitron',sans-serif;">${p.playerName}</div>
-            <div style="display:flex;gap:12px;font-size:12px;">
+            <div style="color:#ffffff;font-weight:700;font-size:13px;margin-bottom:3px;font-family:'Orbitron',sans-serif;">${p.playerName}</div>
+            <div style="display:flex;gap:16px;font-size:11px;">
               <div style="color:#a78bfa;"><span style="color:#c4b5fd;">🔑</span> ${p.uid}</div>
               <div style="color:#7c7ca0;"><span style="color:#a78bfa;">📱</span> ${p.device}</div>
             </div>
@@ -2729,12 +2729,12 @@ ROOM SETTING: 8 MINUTES NORMAL
         </div>
       `).join('');
 
-      return `<div style="width:620px;background:linear-gradient(145deg,#0a0514 0%,#150a2e 40%,#0c0a1e 80%,#080415 100%);padding:28px;border-radius:20px;border:3px solid #8b5cf6;font-family:'Montserrat',sans-serif;box-sizing:border-box;box-shadow:0 0 60px rgba(139,92,246,0.4);">
+      return `<div style="width:700px;background:linear-gradient(145deg,#0a0514 0%,#150a2e 40%,#0c0a1e 80%,#080415 100%);padding:28px;border-radius:20px;border:3px solid #8b5cf6;font-family:'Montserrat',sans-serif;box-sizing:border-box;box-shadow:0 0 60px rgba(139,92,246,0.4);">
         <div style="height:4px;background:linear-gradient(90deg,#8b5cf6,${sideColor},#8b5cf6);border-radius:4px;margin-bottom:20px;"></div>
         <div style="display:flex;align-items:center;gap:18px;margin-bottom:20px;padding-bottom:18px;border-bottom:1px solid rgba(139,92,246,0.35);">
           ${teamLogo ? `<img src="${teamLogo}" style="width:88px;height:88px;border-radius:50%;border:3px solid #a78bfa;object-fit:cover;box-shadow:0 0 25px rgba(139,92,246,0.7);">` : `<div style="width:88px;height:88px;border-radius:50%;border:3px solid #a78bfa;background:linear-gradient(135deg,#2d1b69,#1e1b4b);display:flex;align-items:center;justify-content:center;font-size:36px;">⚽</div>`}
           <div style="flex:1;min-width:0;">
-            <div style="font-family:'Orbitron',sans-serif;font-size:24px;color:#ffffff;font-weight:800;letter-spacing:0.5px;margin-bottom:6px;">${teamName}</div>
+            <div style="font-family:'Orbitron',sans-serif;font-size:26px;color:#ffffff;font-weight:800;letter-spacing:0.5px;margin-bottom:6px;">${teamName}</div>
             <div style="display:inline-block;background:${sideColor}22;border:2px solid ${sideColor};color:${sideColor};padding:4px 14px;border-radius:20px;font-size:12px;font-weight:800;letter-spacing:1.5px;margin-bottom:8px;font-family:'Orbitron',sans-serif;">${side}</div>
             <div style="color:#7c7ca0;font-size:13px;">vs <span style="color:#a78bfa;font-weight:700;">${opponentName}</span>${formDate ? ` • ${formDate}` : ''}${format ? ` • ${format}` : ''}</div>
           </div>
@@ -2745,7 +2745,7 @@ ROOM SETTING: 8 MINUTES NORMAL
             <div style="width:4px;height:20px;background:linear-gradient(180deg,#8b5cf6,${sideColor});border-radius:2px;"></div>
             <span style="color:#a78bfa;font-size:14px;font-weight:800;letter-spacing:2px;font-family:'Orbitron',sans-serif;">📋 FULL ROSTER (${allTeamPlayers.length})</span>
           </div>
-          <div style="border:2px solid rgba(139,92,246,0.3);border-radius:12px;overflow:hidden;max-height:500px;overflow-y:auto;background:rgba(0,0,0,0.3);">
+          <div style="border:2px solid rgba(139,92,246,0.3);border-radius:12px;overflow:hidden;background:rgba(0,0,0,0.3);">
             ${rosterTableHTML}
           </div>
         </div>
